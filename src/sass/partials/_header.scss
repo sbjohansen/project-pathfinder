@@ -1,17 +1,10 @@
 header {
   font-family: 'Source Sans Pro', sans-serif;
-
-  img {
-    width: 100%;
-    object-fit: cover;
-    
-  }
 }
 
 .header-splash {
 
-  background-image: url("../../images/background.jpg");
-
+  background: linear-gradient(to bottom, transparent 60%, black 100%), url("../../images/background.jpg");
   min-height: 1089px;
 
   /* Center and scale the image nicely */
@@ -20,20 +13,8 @@ header {
   background-size: cover;
 }
 
-.header-splash:after {
-  
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  min-height: 1089px;
-  background: linear-gradient(to bottom, transparent 70%, black 100%);
 
-}
-
-.nav-bar a { 
+.navigation-bar a { 
   margin-top: 0.7em;
   float: right;
   color: $color-white;
@@ -44,11 +25,10 @@ header {
   margin-right: 1em;
   font-weight: 600;
   
+
   &.left {
     float: left;
   }
-  
-  
 }
 
 .splash-main-title{

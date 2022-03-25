@@ -1,12 +1,16 @@
 export const select = {
+  templateOf: {
+    aboutPage: '#template-about-page',
+    finderPage: '#template-finder-page',
+
+  },
   containerOf: {
-    menu: '#product-list',
     pages: '#pages',
-    homePage: '.home-page-wrapper',
+    aboutPage: '.about-page-wrapper',
+    finderPage: '.finder-page-wrapper',
   },
   nav: {
-    links: '.main-nav a',
-    homeLinks: '.home-links a',
+    links: '.navigation-bar a',
   },
 };
 
@@ -21,6 +25,12 @@ export const classNames = {
 
 export const settings = {
   
+};
+
+export const templates = {
+  aboutPage: Handlebars.compile(document.querySelector(select.templateOf.aboutPage).innerHTML),
+  finderPage: Handlebars.compile(document.querySelector(select.templateOf.finderPage).innerHTML),
+
 };
 
 export default settings;

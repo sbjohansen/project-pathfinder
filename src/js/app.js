@@ -1,6 +1,6 @@
-/* eslint-disable */ 
-
-import {settings, select, classNames} from './settings.js';
+import {select, classNames} from './settings.js';
+import AboutPage from './components/AboutPage.js';
+import FinderPage from './components/FinderPage.js';
 
 const app = {
   initPages: function(){
@@ -8,7 +8,7 @@ const app = {
 
     thisApp.pages = document.querySelector(select.containerOf.pages).children;
     thisApp.navLinks = document.querySelectorAll(select.nav.links);
-    const idFromHash = window.location.hash.replace('#/', '');
+    const idFromHash = window.location.hash.replace('#', '');
 
     let pageMatchingHash = thisApp.pages[0].id;
 
@@ -25,6 +25,7 @@ const app = {
       link.addEventListener('click', function(event){
         const clickedElement = this;
         event.preventDefault();
+        console.log(thisApp.link);
 
         /*  get page id from href attribute*/
         const id = clickedElement.getAttribute('href').replace('#', '');
@@ -33,10 +34,31 @@ const app = {
         thisApp.activatePage(id);
 
         /* change URL hash*/
-        window.location.hash = '#/' + id;
+        window.location.hash = '#' + id;
 
       });
     }
+    
+  },
+
+  initAbout: function(){
+    const thisApp = this;
+
+    const aboutElement  = document.querySelector(select.containerOf.aboutPage);
+
+    thisApp.aboutPage = new AboutPage(aboutElement);
+    //console.log(bookingElement);
+
+  },
+
+  initFinder: function(){
+    const thisApp = this;
+
+    const finderElement  = document.querySelector(select.containerOf.finderPage);
+
+    thisApp.aboutPage = new FinderPage(finderElement);
+    //console.log(bookingElement);
+
   },
 
   activatePage: function(pageId){
@@ -56,11 +78,15 @@ const app = {
         link.getAttribute('href') == '#' + pageId
       );
     }
+    console.log(pageId);
   },
 
   init: function(){
     const thisApp = this;
-      
+
+    thisApp.initPages();
+    thisApp.initAbout();
+    thisApp.initFinder();
   },
 };
   

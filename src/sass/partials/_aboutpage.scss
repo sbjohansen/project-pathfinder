@@ -1,0 +1,16 @@
+.about-page-wrapper {
+  display: none;
+
+}
+
+.finder-page-wrapper {
+  display: none;
+}
+
+.active .about-page-wrapper{
+  display: block;
+}
+
+.active .finder-page-wrapper {
+  display: block;
+}

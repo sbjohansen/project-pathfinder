@@ -17,7 +17,7 @@
   <header class="header">
       <div class="header-splash">
         <div class="container">
-          <div class="row nav-bar">
+          <div class="navigation-bar row ">
             <div class="col">
               <a href="#about">ABOUT</a>
             </div>
@@ -42,6 +42,39 @@
       </div>
   </header>
 
+  <div id="pages">
+    <section id="about">
+      <div id="about-page" class="about-page-wrapper container"></div>
+    </section>
+    <section id="finder">
+      <div id="finder-page" class="finder-page-wrapper container"></div>
+    </section>
+  </div>
+
+ <!--about page template-->
+ <script id="template-about-page" type="text/x-handlebars-template">
+  <div class="container">
+    <img src="./images/1.jpg">
+
+  </div>
+</script>
+<!--end of about page template-->
+
+<!--finder page template-->
+<script id="template-finder-page" type="text/x-handlebars-template">
+  <div class="container">
+    TEST2
+    <img src="./images/2.jpg">
+
+  </div>
+</script>
+<!--end of finder page template-->
+
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>
   <script src="js/app.js" type="module"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
