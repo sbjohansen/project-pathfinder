@@ -61,7 +61,18 @@ class FinderPage {
 
       if(clickedElement.getAttribute('class') === classNames.finder.gridItem ){
         console.log(clickedElement);
+
+        //check if there is any element with clicked class
+
+        //if false allow to click any element of the grid
+
+        //if true allow to click elements only touching other grid elements with class clicked
+
+
         clickedElement.classList.add(classNames.finder.gridItemClicked);
+      } else {
+        clickedElement.classList.remove(classNames.finder.gridItemClicked);
+
       }
 
     });
