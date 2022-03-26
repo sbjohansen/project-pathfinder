@@ -56,29 +56,68 @@ class FinderPage {
 
     thisFinder.dom.gridContainer = document.querySelector(select.containerOf.gridContainer);
 
+    thisFinder.clickedGrid = [];
+
+    let lastClicked = '';
+
+
     thisFinder.dom.gridContainer.addEventListener('click', function(event){
       const clickedElement = event.target;
 
+      const clickedElementId = parseInt(event.target.getAttribute('id'));
+
+
+      
       if(clickedElement.getAttribute('class') === classNames.finder.gridItem ){
-        console.log(clickedElement);
+     
+        if(thisFinder.clickedGrid.length === 0){
 
-        //check if there is any element with clicked class
+          thisFinder.clickedGrid.push(clickedElement.getAttribute('id'));
 
-        //if false allow to click any element of the grid
+          clickedElement.classList.add(classNames.finder.gridItemClicked);
+          
+          lastClicked = parseInt(clickedElementId);
+          console.log('last clicked', lastClicked);
+        }
 
-        //if true allow to click elements only touching other grid elements with class clicked
+        else if (thisFinder.clickedGrid.length > 0) {
+          if (clickedElementId === lastClicked || 
+            clickedElementId === lastClicked + 1 || 
+            clickedElementId === lastClicked - 1 ||
+            clickedElementId === lastClicked + 10 ||
+            clickedElementId === lastClicked - 10 ) {
+            thisFinder.clickedGrid.push(clickedElement.getAttribute('id'));
 
+            clickedElement.classList.add(classNames.finder.gridItemClicked);
+            lastClicked = clickedElementId;
+          } else {
+            for(let gridCell of thisFinder.clickedGrid){
+              if (clickedElementId === parseInt(gridCell) + 1 ||
+              clickedElementId === parseInt(gridCell) - 1 ||
+              clickedElementId === parseInt(gridCell) + 10 ||
+              clickedElementId === parseInt(gridCell) - 10){
+                thisFinder.clickedGrid.push(clickedElement.getAttribute('id'));
 
-        clickedElement.classList.add(classNames.finder.gridItemClicked);
+                clickedElement.classList.add(classNames.finder.gridItemClicked);
+                lastClicked = clickedElementId;
+              }
+            } 
+          }
+        } 
       } else {
-        clickedElement.classList.remove(classNames.finder.gridItemClicked);
-
+        if(clickedElementId === lastClicked || 
+          clickedElementId === lastClicked + 1 || 
+          clickedElementId === lastClicked - 1 ||
+          clickedElementId === lastClicked + 10 ||
+          clickedElementId === lastClicked - 10){
+          clickedElement.classList.remove(classNames.finder.gridItemClicked);
+          const clickedId = thisFinder.clickedGrid.indexOf(clickedElement.getAttribute('id'));
+          thisFinder.clickedGrid.splice(clickedId, 1);
+          lastClicked = clickedElementId;
+        }
       }
-
     });
-
   }
-    
 }
 
 export default FinderPage;
