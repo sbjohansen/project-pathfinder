@@ -1,4 +1,4 @@
-import {select, templates} from '../settings.js';
+import {select, templates, settings, classNames} from '../settings.js';
 import utils from '../utils.js';
 
 
@@ -7,7 +7,8 @@ class FinderPage {
     const thisFinder = this;
 
     thisFinder.render(element);
-    thisFinder.initGrid();    
+    thisFinder.initGrid();   
+    thisFinder.initActions(); 
   }
 
 
@@ -32,22 +33,40 @@ class FinderPage {
 
   initGrid(){
 
-    const container = document.querySelector('.grid-container');
+    const container = document.querySelector(select.containerOf.gridContainer);
 
     function makeRows(rows, cols) {
-      container.style.setProperty('--grid-rows', rows);
-      container.style.setProperty('--grid-cols', cols);
+      container.style.setProperty(settings.gridRows, rows);
+      container.style.setProperty(settings.gridCols, cols);
       let c = 0;
       for (c = 0; c < (rows * cols); c++) {
         let cell = document.createElement('div');
         cell.innerText = (c + 1);
-        container.appendChild(cell).className = 'grid-item';
+        container.appendChild(cell).className = classNames.finder.gridItem;
+        container.appendChild(cell).setAttribute('id', c + 1 );
+
       }
     }
 
     makeRows(10, 10);
   }
   
+  initActions() {
+    const thisFinder = this;
+
+    thisFinder.dom.gridContainer = document.querySelector(select.containerOf.gridContainer);
+
+    thisFinder.dom.gridContainer.addEventListener('click', function(event){
+      const clickedElement = event.target;
+
+      if(clickedElement.getAttribute('class') === classNames.finder.gridItem ){
+        console.log(clickedElement);
+        clickedElement.classList.add(classNames.finder.gridItemClicked);
+      }
+
+    });
+
+  }
     
 }
 

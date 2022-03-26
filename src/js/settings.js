@@ -8,6 +8,7 @@ export const select = {
     pages: '#pages',
     aboutPage: '.about-page-wrapper',
     finderPage: '.finder-page-wrapper',
+    gridContainer: '.grid-container',
   },
   nav: {
     links: '.navigation-bar a',
@@ -21,10 +22,16 @@ export const classNames = {
   pages: {
     active: 'active',
   },
+  finder: {
+    gridItem: 'grid-item',
+    gridItemClicked: 'grid-item-clicked',
+  }
 };
 
 export const settings = {
-  
+  gridRows: '--grid-rows',
+  gridCols: '--grid-cols',
+
 };
 
 export const templates = {
