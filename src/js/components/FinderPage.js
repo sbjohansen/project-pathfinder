@@ -59,7 +59,7 @@ class FinderPage {
     thisFinder.clickedGrid = [];
 
     let lastClicked = '';
-
+    let lastClickedBackup = '';
 
     thisFinder.dom.gridContainer.addEventListener('click', function(event){
       const clickedElement = event.target;
@@ -70,6 +70,8 @@ class FinderPage {
       
       if(clickedElement.getAttribute('class') === classNames.finder.gridItem ){
      
+        //check if there is any grid active 
+
         if(thisFinder.clickedGrid.length === 0){
 
           thisFinder.clickedGrid.push(clickedElement.getAttribute('id'));
@@ -79,41 +81,40 @@ class FinderPage {
           lastClicked = parseInt(clickedElementId);
           console.log('last clicked', lastClicked);
         }
+        // if there is grid active check for conditions for next active grid
 
         else if (thisFinder.clickedGrid.length > 0) {
-          if (clickedElementId === lastClicked || 
-            clickedElementId === lastClicked + 1 || 
-            clickedElementId === lastClicked - 1 ||
-            clickedElementId === lastClicked + 10 ||
-            clickedElementId === lastClicked - 10 ) {
-            thisFinder.clickedGrid.push(clickedElement.getAttribute('id'));
+          for(let gridCell of thisFinder.clickedGrid){
+            if (clickedElementId === parseInt(gridCell) + 1 ||
+            clickedElementId === parseInt(gridCell) - 1 ||
+            clickedElementId === parseInt(gridCell) + 10 ||
+            clickedElementId === parseInt(gridCell) - 10){
+              thisFinder.clickedGrid.push(clickedElement.getAttribute('id'));
 
-            clickedElement.classList.add(classNames.finder.gridItemClicked);
-            lastClicked = clickedElementId;
-          } else {
-            for(let gridCell of thisFinder.clickedGrid){
-              if (clickedElementId === parseInt(gridCell) + 1 ||
-              clickedElementId === parseInt(gridCell) - 1 ||
-              clickedElementId === parseInt(gridCell) + 10 ||
-              clickedElementId === parseInt(gridCell) - 10){
-                thisFinder.clickedGrid.push(clickedElement.getAttribute('id'));
+              clickedElement.classList.add(classNames.finder.gridItemClicked);
+              lastClicked = clickedElementId;
+              lastClickedBackup = clickedElement;
+            }
+          }}
+      } 
+      else {
 
-                clickedElement.classList.add(classNames.finder.gridItemClicked);
-                lastClicked = clickedElementId;
-              }
-            } 
-          }
-        } 
-      } else {
+        //check are conditions met for cell to be unmarked
+
         if(clickedElementId === lastClicked || 
           clickedElementId === lastClicked + 1 || 
           clickedElementId === lastClicked - 1 ||
           clickedElementId === lastClicked + 10 ||
-          clickedElementId === lastClicked - 10){
-          clickedElement.classList.remove(classNames.finder.gridItemClicked);
-          const clickedId = thisFinder.clickedGrid.indexOf(clickedElement.getAttribute('id'));
-          thisFinder.clickedGrid.splice(clickedId, 1);
-          lastClicked = clickedElementId;
+          clickedElementId === lastClicked - 10 ){
+          if(lastClickedBackup.classList.contains(classNames.finder.gridItemClicked) && lastClicked != clickedElementId){
+            console.log('cant be removed');
+            //remove cell when conditions are right
+          } else {
+            clickedElement.classList.remove(classNames.finder.gridItemClicked);
+            const clickedId = thisFinder.clickedGrid.indexOf(clickedElement.getAttribute('id'));
+            thisFinder.clickedGrid.splice(clickedId, 1);
+            lastClicked = clickedElementId;
+          }
         }
       }
     });
