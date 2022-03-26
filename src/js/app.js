@@ -34,7 +34,7 @@ const app = {
         thisApp.activatePage(id);
 
         /* change URL hash*/
-        window.location.hash = '#' + id;
+        window.location.hash = '#/' + id;
 
       });
     }
@@ -75,7 +75,7 @@ const app = {
     for(let link of thisApp.navLinks){
       link.classList.toggle(
         classNames.nav.active, 
-        link.getAttribute('href') == '#' + pageId
+        link.getAttribute('href') == '#/' + pageId
       );
     }
     console.log(pageId);
@@ -87,6 +87,7 @@ const app = {
     thisApp.initPages();
     thisApp.initAbout();
     thisApp.initFinder();
+    
   },
 };
   
