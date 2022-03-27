@@ -82,24 +82,24 @@ class FinderPage {
           clickedElement.classList.add(classNames.finder.gridItemClicked);
           
           lastClicked = parseInt(clickedElementId);
-          console.log('thisfinder', thisFinder.clickedGrid);
+          //console.log('thisfinder', thisFinder.clickedGrid);
         }
         // if there is grid active check for conditions for next active grid
 
         else if (thisFinder.clickedGrid.length > 0) {
-          for(let gridCell of thisFinder.clickedGrid){
-            if (clickedElementId === parseInt(gridCell) + 1 ||
-            clickedElementId === parseInt(gridCell) - 1 ||
-            clickedElementId === parseInt(gridCell) + 10 ||
-            clickedElementId === parseInt(gridCell) - 10){
-              thisFinder.clickedGrid.push(parseInt(clickedElement.getAttribute('id')));
+          
+          if (thisFinder.clickedGrid.includes(parseInt(clickedElementId + 1  )) === true ||
+          thisFinder.clickedGrid.includes(parseInt(clickedElementId - 1  )) === true ||
+          thisFinder.clickedGrid.includes(parseInt(clickedElementId + 10  )) === true||
+          thisFinder.clickedGrid.includes(parseInt(clickedElementId - 10  )) === true){
+            thisFinder.clickedGrid.push(parseInt(clickedElement.getAttribute('id')));
 
-              clickedElement.classList.add(classNames.finder.gridItemClicked);
-              lastClicked = clickedElementId;
-              lastClickedBackup = clickedElement;
-              //console.log(thisFinder.clickedGrid);
-            }
-          }}
+            clickedElement.classList.add(classNames.finder.gridItemClicked);
+            lastClicked = clickedElementId;
+            lastClickedBackup = clickedElement;
+            //console.log('before', thisFinder.clickedGrid);
+          }
+        }
       } 
       else {
 
@@ -118,26 +118,22 @@ class FinderPage {
             
             
 
-            if(thisFinder.clickedGrid.includes(parseInt(clickedElementId + 1  )) && 
-            thisFinder.clickedGrid.includes(parseInt(clickedElementId - 1  )) === true||
-            thisFinder.clickedGrid.includes(parseInt(clickedElementId + 10  )) && 
-            thisFinder.clickedGrid.includes(parseInt(clickedElementId - 10  )) === true||
-            thisFinder.clickedGrid.includes(parseInt(clickedElementId + 1  )) && 
-            thisFinder.clickedGrid.includes(parseInt(clickedElementId + 10  )) === true||
-            thisFinder.clickedGrid.includes(parseInt(clickedElementId - 1  )) && 
-            thisFinder.clickedGrid.includes(parseInt(clickedElementId - 10 ))  === true
+            if(thisFinder.clickedGrid.includes(parseInt(clickedElementId + 1  )) === true && 
+            thisFinder.clickedGrid.includes(parseInt(clickedElementId - 1  )) === true ||
+            thisFinder.clickedGrid.includes(parseInt(clickedElementId + 10  )) === true && 
+            thisFinder.clickedGrid.includes(parseInt(clickedElementId - 10  )) === true
             ){
               
               console.log('cannot be removed');
-
+              
               
             } else {
               clickedElement.classList.remove(classNames.finder.gridItemClicked);
               const clickedId = thisFinder.clickedGrid.indexOf(clickedElement.getAttribute('id'));
               thisFinder.clickedGrid.splice(clickedId, 1);
               lastClicked = clickedElementId;
-              console.log('clickedid', clickedId);
-              console.log(thisFinder.clickedGrid.includes(lastClicked - 10 ));
+              //console.log('clickedid', clickedId);
+              //console.log('after', thisFinder.clickedGrid);
             }
           }
         }
