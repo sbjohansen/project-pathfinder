@@ -61,6 +61,9 @@ class FinderPage {
     let lastClicked = '';
     let lastClickedBackup = '';
 
+
+    //ROUTE DRAWING EVENT LISTENER
+
     thisFinder.dom.gridContainer.addEventListener('click', function(event){
       const clickedElement = event.target;
 
@@ -74,12 +77,12 @@ class FinderPage {
 
         if(thisFinder.clickedGrid.length === 0){
 
-          thisFinder.clickedGrid.push(clickedElement.getAttribute('id'));
+          thisFinder.clickedGrid.push(parseInt(clickedElement.getAttribute('id')));
 
           clickedElement.classList.add(classNames.finder.gridItemClicked);
           
           lastClicked = parseInt(clickedElementId);
-          console.log('last clicked', lastClicked);
+          console.log('thisfinder', thisFinder.clickedGrid);
         }
         // if there is grid active check for conditions for next active grid
 
@@ -89,11 +92,12 @@ class FinderPage {
             clickedElementId === parseInt(gridCell) - 1 ||
             clickedElementId === parseInt(gridCell) + 10 ||
             clickedElementId === parseInt(gridCell) - 10){
-              thisFinder.clickedGrid.push(clickedElement.getAttribute('id'));
+              thisFinder.clickedGrid.push(parseInt(clickedElement.getAttribute('id')));
 
               clickedElement.classList.add(classNames.finder.gridItemClicked);
               lastClicked = clickedElementId;
               lastClickedBackup = clickedElement;
+              //console.log(thisFinder.clickedGrid);
             }
           }}
       } 
@@ -107,17 +111,41 @@ class FinderPage {
           clickedElementId === lastClicked + 10 ||
           clickedElementId === lastClicked - 10 ){
           if(lastClickedBackup.classList.contains(classNames.finder.gridItemClicked) && lastClicked != clickedElementId){
-            console.log('cant be removed');
+            //console.log('cant be removed');
+            
             //remove cell when conditions are right
           } else {
-            clickedElement.classList.remove(classNames.finder.gridItemClicked);
-            const clickedId = thisFinder.clickedGrid.indexOf(clickedElement.getAttribute('id'));
-            thisFinder.clickedGrid.splice(clickedId, 1);
-            lastClicked = clickedElementId;
+            
+            
+
+            if(thisFinder.clickedGrid.includes(parseInt(clickedElementId + 1  )) && 
+            thisFinder.clickedGrid.includes(parseInt(clickedElementId - 1  )) === true||
+            thisFinder.clickedGrid.includes(parseInt(clickedElementId + 10  )) && 
+            thisFinder.clickedGrid.includes(parseInt(clickedElementId - 10  )) === true||
+            thisFinder.clickedGrid.includes(parseInt(clickedElementId + 1  )) && 
+            thisFinder.clickedGrid.includes(parseInt(clickedElementId + 10  )) === true||
+            thisFinder.clickedGrid.includes(parseInt(clickedElementId - 1  )) && 
+            thisFinder.clickedGrid.includes(parseInt(clickedElementId - 10 ))  === true
+            ){
+              
+              console.log('cannot be removed');
+
+              
+            } else {
+              clickedElement.classList.remove(classNames.finder.gridItemClicked);
+              const clickedId = thisFinder.clickedGrid.indexOf(clickedElement.getAttribute('id'));
+              thisFinder.clickedGrid.splice(clickedId, 1);
+              lastClicked = clickedElementId;
+              console.log('clickedid', clickedId);
+              console.log(thisFinder.clickedGrid.includes(lastClicked - 10 ));
+            }
           }
         }
       }
     });
+
+    //END OF ROUTE DRAWING EVENT LISTENER
+
   }
 }
 
