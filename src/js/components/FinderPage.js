@@ -57,7 +57,7 @@ class FinderPage {
       let c = 0;
       for (c = 0; c < (rows * cols); c++) {
         let cell = document.createElement('div');
-        cell.innerText = (c + 1);
+        //cell.innerText = (c + 1);
         container.appendChild(cell).className = classNames.finder.gridItem;
         container.appendChild(cell).setAttribute('id', c + 1 );
       }
