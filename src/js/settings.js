@@ -25,6 +25,7 @@ export const classNames = {
   finder: {
     gridItem: 'grid-item',
     gridItemClicked: 'grid-item-clicked',
+    gridItemLastClicked: 'grid-item-last-clicked',
   }
 };
 

@@ -59,9 +59,6 @@ class FinderPage {
     thisFinder.clickedGrid = [];
 
     thisFinder.lastClicked = '';
-    thisFinder.lastClickedBackup = '';
-    thisFinder.clickedElementConnected = ''
-
 
     //ROUTE DRAWING EVENT LISTENER
 
@@ -74,21 +71,7 @@ class FinderPage {
       const cellLeft = thisFinder.clickedGrid.includes(parseInt(clickedElementId - 1 ));
       const cellTop = thisFinder.clickedGrid.includes(parseInt(clickedElementId - 10 ));
       const cellBottom = thisFinder.clickedGrid.includes(parseInt(clickedElementId + 10 ));
-      const cellBottomRight = thisFinder.clickedGrid.includes(parseInt(clickedElementId + 11 ));
-      const cellBottomLeft = thisFinder.clickedGrid.includes(parseInt(clickedElementId + 9 ));
-      const cellTopLeft = thisFinder.clickedGrid.includes(parseInt(clickedElementId - 11 ));
-      const cellTopRight = thisFinder.clickedGrid.includes(parseInt(clickedElementId - 9 ));
 
-
-      const cellLeftBackup = thisFinder.clickedGrid.includes(parseInt(clickedElementId - 2 ));
-      const cellRightBackup = thisFinder.clickedGrid.includes(parseInt(clickedElementId + 2 ));
-      const cellBottomBackup = thisFinder.clickedGrid.includes(parseInt(clickedElementId + 20 ));
-      const cellTopBackup = thisFinder.clickedGrid.includes(parseInt(clickedElementId - 20 ));
-
-      const cellTopRightBackup = thisFinder.clickedGrid.includes(parseInt(clickedElementId - 18 ));
-      const cellTopLeftBackup = thisFinder.clickedGrid.includes(parseInt(clickedElementId - 22 ));
-      const cellBottomLeftBackup = thisFinder.clickedGrid.includes(parseInt(clickedElementId + 18 ));
-      const cellBottomRightBackup = thisFinder.clickedGrid.includes(parseInt(clickedElementId + 22 ));
 
       if(clickedElement.getAttribute('class') === classNames.finder.gridItem ){
      
@@ -98,10 +81,9 @@ class FinderPage {
 
           thisFinder.clickedGrid.push(parseInt(clickedElement.getAttribute('id')));
 
-          clickedElement.classList.add(classNames.finder.gridItemClicked);
+          clickedElement.classList.add(classNames.finder.gridItemLastClicked);
           
-          thisFinder.lastClicked = parseInt(clickedElementId);
-          console.log('thisfinder', thisFinder.clickedGrid);
+          thisFinder.lastClicked = clickedElement;
           
         }
         // if there is grid active check for conditions for next active grid
@@ -111,59 +93,50 @@ class FinderPage {
           if (cellRight === true || cellLeft === true || cellBottom === true|| cellTop === true ){
             
             thisFinder.clickedGrid.push(parseInt(clickedElement.getAttribute('id')));
-            clickedElement.classList.add(classNames.finder.gridItemClicked);
-            thisFinder.lastClicked = clickedElementId;
-            thisFinder.lastClickedBackup = clickedElement;
-            console.log('before', thisFinder.clickedGrid);
+
+            thisFinder.lastClicked.classList.replace(classNames.finder.gridItemLastClicked, classNames.finder.gridItemClicked);
+
+            clickedElement.classList.add(classNames.finder.gridItemLastClicked);
+
+            thisFinder.lastClicked = clickedElement;
+            
+
           }
         }
       } 
 
       //CONDITIONS FOR REMOVING MARKED CELLS
 
-      else if ( 
-        clickedElementId === thisFinder.lastClicked ||
-        clickedElementId === thisFinder.lastClicked -1 && cellLeft === true||
-        clickedElementId === thisFinder.lastClicked -1 && cellTop === true||
-        clickedElementId === thisFinder.lastClicked -1 && cellBottom === true||
+      else if ( clickedElementId === thisFinder.clickedGrid[thisFinder.clickedGrid.length - 1]) {
 
-
-
-        clickedElementId === thisFinder.lastClicked +1 && cellRight === true||
-        clickedElementId === thisFinder.lastClicked +1 && cellTop === true||
-        clickedElementId === thisFinder.lastClicked +1 && cellBottom === true||
-
-
-        clickedElementId === thisFinder.lastClicked -10 && cellTop === true||
-        clickedElementId === thisFinder.lastClicked -10 && cellLeft === true||
-        clickedElementId === thisFinder.lastClicked -10 && cellRight === true||
-
-        clickedElementId === thisFinder.lastClicked +10 && cellBottom === true ||
-        clickedElementId === thisFinder.lastClicked +10 && cellRight === true ||
-        clickedElementId === thisFinder.lastClicked +10 && cellLeft === true ||
-
-        cellLeft === false && cellTop === false && cellRight === false && cellBottom === false
-
-        ){
         clickedElement.classList.remove(classNames.finder.gridItemClicked);
-          const clickedId = thisFinder.clickedGrid.indexOf(parseInt(clickedElement.getAttribute('id')));
-          thisFinder.clickedGrid.splice(clickedId, 1);
-          thisFinder.lastClicked = clickedElementId;
-          console.log('after', thisFinder.clickedGrid);
-      } else { 
-        
-        console.log('cant remove');
+        clickedElement.classList.remove(classNames.finder.gridItemLastClicked);
 
-        }
-    }
-    
+        const clickedId = thisFinder.clickedGrid.indexOf(parseInt(clickedElement.getAttribute('id')));
+        thisFinder.clickedGrid.splice(clickedId, 1);
+
         
+        const previousClickedId = thisFinder.clickedGrid[thisFinder.clickedGrid.length - 1]
+
+
+        console.log(previousClickedId);
+
+        thisFinder.lastClicked = document.getElementById(previousClickedId);
+
+        console.log(thisFinder.lastClicked);
+
+        if(thisFinder.lastClicked !== null){
+
+          thisFinder.lastClicked.classList.replace(classNames.finder.gridItemClicked, classNames.finder.gridItemLastClicked);
+        }
+      }
+    }
     );
   }
-
-  //END OF ROUTE DRAWING EVENT LISTENER
-
 }
+//END OF ROUTE DRAWING EVENT LISTENER
+
+
 
 
 export default FinderPage;
