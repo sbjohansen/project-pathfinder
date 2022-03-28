@@ -236,7 +236,7 @@ class FinderPage {
             thisFinder.lastClicked.classList.replace(classNames.finder.gridItemClicked, classNames.finder.gridItemLastClicked);
           }
         } else {
-         console.log('not last clicked');
+          console.log('not last clicked');
         }
 
         //END OF ROUTE DRAWING EVENT LISTENER
@@ -321,10 +321,10 @@ class FinderPage {
       }
 
     
-    if( parseInt(finishX) === 0){
-      finishX = 10;
-    }
-      
+      if( parseInt(finishX) === 0){
+        finishX = 10;
+      }
+    
       routeX = startX - finishX;
 
      
@@ -365,13 +365,13 @@ class FinderPage {
       }
     } else {
       routeX = 9;
-      console.log('route 10')
+      console.log('route 10');
     }
  
     if(startY > finishY){
       routeY = startY - finishY;
 
-      console.log(thisFinder.gridFinish)
+      console.log(thisFinder.gridFinish);
 
       for(let i = 0; i < routeY; i++){
         //console.log('bb');
