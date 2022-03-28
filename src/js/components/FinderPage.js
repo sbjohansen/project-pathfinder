@@ -298,7 +298,7 @@ class FinderPage {
     let finishX = finishXY - (Math.floor((finishXY)/10)*10);
 
 
-    console.log('col', 'Sx', startX,  'Sy', startY);
+    //console.log('col', 'Sx', startX,  'Sy', startY);
     console.log('col', 'Fx', finishX, 'Fy', finishY);
     
     
