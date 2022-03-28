@@ -373,7 +373,7 @@ class FinderPage {
 
       console.log(thisFinder.gridFinish);
 
-      for(let i = 0; i < routeY; i++){
+      for(let i = 0; i < routeY + 1; i++){
         //console.log('bb');
         const pathElem = document.getElementById(thisFinder.gridFinish + (i*10));
         pathElem.classList.replace(classNames.finder.gridItemClicked, classNames.finder.path);
