@@ -9,10 +9,16 @@ export const select = {
     aboutPage: '.about-page-wrapper',
     finderPage: '.finder-page-wrapper',
     gridContainer: '.grid-container',
+    buttonWrapper: '.button-wrapper'
+
   },
   nav: {
     links: '.navigation-bar a',
   },
+
+  finder: {
+    buttonStopDrawing: 'finder-start',
+  }
 };
 
 export const classNames = {
@@ -26,6 +32,10 @@ export const classNames = {
     gridItem: 'grid-item',
     gridItemClicked: 'grid-item-clicked',
     gridItemLastClicked: 'grid-item-last-clicked',
+    buttonStart: '.finder-start',
+    buttonStartFinish: '.finder-start-finish',
+    buttonCompute: 'finder-compute',
+    buttonActive: 'button-active',
   }
 };
 

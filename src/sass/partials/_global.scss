@@ -11,6 +11,7 @@ body {
   background-repeat: no-repeat;
   background-size: 100%;
   background-color: $color-background;
+  font-family: $font-sans-serif;
 }
 
 
@@ -26,4 +27,9 @@ footer {
   font-family: $font-sans-serif;
   font-size: 1vw;
   color: $color-white;
+}
+
+h1, h2, h3 {
+  font-family: $font-sans-serif;
+
 }
