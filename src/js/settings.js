@@ -38,6 +38,7 @@ export const classNames = {
     buttonActive: 'button-active',
     start: 'grid-item-start',
     finish: 'grid-item-finish',
+    path: 'grid-item-path',
   },
 };
 

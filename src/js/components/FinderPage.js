@@ -54,7 +54,7 @@ class FinderPage {
       let c = 0;
       for (c = 0; c < (rows * cols); c++) {
         let cell = document.createElement('div');
-        //cell.innerText = (c + 1);
+        cell.innerText = (c + 1);
         container.appendChild(cell).className = classNames.finder.gridItem;
         container.appendChild(cell).setAttribute('id', c + 1 );
       }
@@ -105,6 +105,7 @@ class FinderPage {
 
       computeButton.classList.add(classNames.finder.buttonActive);
 
+      thisFinder.initCompute();
       
       
 
@@ -124,6 +125,13 @@ class FinderPage {
 
       for(let cell of thisFinder.dom.gridContainer.children){
         cell.classList.remove(classNames.finder.gridItemClicked);
+        cell.classList.remove(classNames.finder.start);
+        cell.classList.remove(classNames.finder.finish);
+        cell.classList.remove(classNames.finder.path);
+
+        thisFinder.gridStart = 0;
+        thisFinder.gridFinish = 0;
+        thisFinder.clickedGrid = [];
 
       }
 
@@ -190,7 +198,7 @@ class FinderPage {
 
             }
           } 
-           if (startFinishButton.classList.contains(classNames.finder.buttonActive) === true) {
+          if (startFinishButton.classList.contains(classNames.finder.buttonActive) === true) {
             clickedElement.classList.replace(classNames.finder.gridItemClicked, classNames.finder.start);
 
           }
@@ -222,9 +230,6 @@ class FinderPage {
 
         //END OF ROUTE DRAWING EVENT LISTENER
 
-        
-
-
       }
     });
 
@@ -234,7 +239,6 @@ class FinderPage {
     const thisFinder = this;
 
     const startFinishButton = thisFinder.dom.wrapper.querySelector(classNames.finder.buttonStartFinish);
-    const computeButton = thisFinder.dom.wrapper.querySelector(classNames.finder.buttonCompute);
 
     
     thisFinder.dom.gridContainer.addEventListener('click', function(event){
@@ -266,6 +270,110 @@ class FinderPage {
     });
   }
 
+
+  initCompute(){
+    const thisFinder = this;
+
+    const startXY = thisFinder.gridStart;
+    const finishXY = thisFinder.gridFinish;
+
+    const startElement = document.getElementById(startXY);
+    const finishElement = document.getElementById(finishXY);
+
+    
+    console.log(startElement)
+
+    console.log(startXY)
+    //console.log(finishElement)
+
+
+    const startY = Math.floor((startXY + 10)/10);
+    const startX = startXY - (Math.floor((startXY)/10)*10)
+
+    const finishY = Math.floor((finishXY + 10)/10);
+    const finishX = finishXY - (Math.floor((finishXY)/10)*10)
+
+
+    console.log('col', 'Sx', startX,  'Sy', startY);
+    console.log('col', 'Fx', finishX, 'Fy', finishY);
+
+
+    let routeX = '';
+    let routeY = '';
+
+    thisFinder.coordXY = '';
+
+    if(startX > finishX){
+      routeX = startX - finishX;
+
+      for(let i = 1; i < routeX + 1; i++){
+        console.log('bb');
+        const pathElem = document.getElementById(thisFinder.gridStart - i);
+        pathElem.classList.remove(classNames.finder.gridItemClicked, classNames.finder.start, classNames.finder.finish);
+
+        pathElem.classList.add(classNames.finder.path);
+        console.log(pathElem);
+        startElement.classList.replace(classNames.finder.start, classNames.finder.path);
+
+      }
+
+    } else if (startX < finishX) {
+      routeX = finishX - startX;
+
+      for(let i = 1; i < routeX + 1; i++){
+        console.log('bb');
+        const pathElem = document.getElementById(thisFinder.gridStart + i);
+        pathElem.classList.remove(classNames.finder.gridItemClicked, classNames.finder.start, classNames.finder.finish);
+
+        pathElem.classList.add(classNames.finder.path);
+        console.log(pathElem);
+        startElement.classList.replace(classNames.finder.start, classNames.finder.path);
+
+      }
+    } else {
+      routeX = 0;
+    }
+
+    if(startY > finishY){
+      routeY = startY - finishY;
+
+      for(let i = 1; i < routeY + 1; i++){
+        console.log('bb');
+        const pathElem = document.getElementById(thisFinder.gridFinish + i*10);
+        pathElem.classList.remove(classNames.finder.gridItemClicked, classNames.finder.start, classNames.finder.finish);
+
+        pathElem.classList.add(classNames.finder.path);
+        console.log(pathElem);
+        finishElement.classList.replace(classNames.finder.finish, classNames.finder.path);
+
+      }
+      
+
+
+      
+    } else if (startX < finishX) {
+      routeY = finishY - startY;
+
+      for(let i = 1; i < routeY + 1; i++){
+        console.log('bb');
+        const pathElem = document.getElementById(thisFinder.gridFinish - i*10);
+        pathElem.classList.remove(classNames.finder.gridItemClicked, classNames.finder.start, classNames.finder.finish);
+
+        pathElem.classList.add(classNames.finder.path);
+        console.log(pathElem);
+        finishElement.classList.replace(classNames.finder.finish, classNames.finder.path);
+      }
+    } else {
+      routeY = 0;
+    }
+
+    console.log ('routeX:', routeX, 'routeY', routeY);
+
+
+
+
+    console.log(thisFinder.coordXY);
+  }
 }
 
 
