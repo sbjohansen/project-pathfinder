@@ -25,7 +25,7 @@ const app = {
       link.addEventListener('click', function(event){
         const clickedElement = this;
         event.preventDefault();
-        console.log(thisApp.link);
+        //console.log(thisApp.link);
 
         /*  get page id from href attribute*/
         const id = clickedElement.getAttribute('href').replace('#', '');
@@ -78,7 +78,7 @@ const app = {
         link.getAttribute('href') == '#/' + pageId
       );
     }
-    console.log(pageId);
+    //console.log(pageId);
   },
 
   init: function(){

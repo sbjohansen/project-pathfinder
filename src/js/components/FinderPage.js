@@ -40,6 +40,9 @@ class FinderPage {
     thisFinder.startFinishButton = thisFinder.dom.wrapper.querySelector(classNames.finder.buttonStartFinish);
     thisFinder.computeButton = thisFinder.dom.wrapper.querySelector(classNames.finder.buttonCompute);
 
+    thisFinder.stageOne = document.querySelector(classNames.finder.stageOne);
+    thisFinder.stageTwo = document.querySelector(classNames.finder.stageTwo);
+    thisFinder.stageThree = document.querySelector(classNames.finder.stageThree);
 
   }
 
@@ -84,8 +87,11 @@ class FinderPage {
 
 
       startButton.classList.remove(classNames.finder.buttonActive);
-
       startFinishButton.classList.add(classNames.finder.buttonActive);
+
+
+      thisFinder.stageOne.classList.remove(classNames.finder.buttonActive);
+      thisFinder.stageTwo.classList.add(classNames.finder.buttonActive);
 
       thisFinder.lastClicked.classList.replace(classNames.finder.gridItemLastClicked, classNames.finder.gridItemClicked);
 
@@ -107,6 +113,9 @@ class FinderPage {
 
       thisFinder.initCompute();
       
+      thisFinder.stageTwo.classList.remove(classNames.finder.buttonActive);
+      thisFinder.stageThree.classList.add(classNames.finder.buttonActive);
+
       
 
     });
@@ -135,6 +144,9 @@ class FinderPage {
 
       }
 
+      thisFinder.stageThree.classList.remove(classNames.finder.buttonActive);
+      thisFinder.stageOne.classList.add(classNames.finder.buttonActive);
+
     });
 
   }
@@ -148,10 +160,9 @@ class FinderPage {
 
     const startButton = thisFinder.dom.wrapper.querySelector(classNames.finder.buttonStart);
     const startFinishButton = thisFinder.dom.wrapper.querySelector(classNames.finder.buttonStartFinish);
-    const computeButton = thisFinder.dom.wrapper.querySelector(classNames.finder.buttonCompute);
     thisFinder.action = true;
 
-    console.log(startButton.classList.contains(classNames.finder.buttonActive));
+    //console.log(startButton.classList.contains(classNames.finder.buttonActive));
     //ROUTE DRAWING EVENT LISTENER
 
     
@@ -225,7 +236,7 @@ class FinderPage {
             thisFinder.lastClicked.classList.replace(classNames.finder.gridItemClicked, classNames.finder.gridItemLastClicked);
           }
         } else {
-          console.log('not last clicked');
+         console.log('not last clicked');
         }
 
         //END OF ROUTE DRAWING EVENT LISTENER
@@ -262,7 +273,7 @@ class FinderPage {
           clickedElement.classList.replace(classNames.finder.gridItemClicked, classNames.finder.finish);
           thisFinder.gridFinish = clickedElementId;
 
-          console.log(thisFinder.gridStart, thisFinder.gridFinish);
+          //console.log(thisFinder.gridStart, thisFinder.gridFinish);
         }
 
         
@@ -280,97 +291,129 @@ class FinderPage {
     const startElement = document.getElementById(startXY);
     const finishElement = document.getElementById(finishXY);
 
-    
-    console.log(startElement)
+    let startY = Math.floor((startXY + 10)/10);
+    let startX = startXY - (Math.floor((startXY)/10)*10);
 
-    console.log(startXY)
-    //console.log(finishElement)
-
-
-    const startY = Math.floor((startXY + 10)/10);
-    const startX = startXY - (Math.floor((startXY)/10)*10)
-
-    const finishY = Math.floor((finishXY + 10)/10);
-    const finishX = finishXY - (Math.floor((finishXY)/10)*10)
+    let finishY = Math.floor((finishXY + 10)/10);
+    let finishX = finishXY - (Math.floor((finishXY)/10)*10);
 
 
     console.log('col', 'Sx', startX,  'Sy', startY);
     console.log('col', 'Fx', finishX, 'Fy', finishY);
+    
+    
+    if( parseInt(startX) === 0){
+      startX = 10;
+    }
 
-
+     
+    if( parseInt(finishX) === 0){
+      finishX = 10;
+    }
     let routeX = '';
     let routeY = '';
 
     thisFinder.coordXY = '';
 
     if(startX > finishX){
+      if( parseInt(startX) === 0){
+        startX = 10;
+      }
+
+    
+    if( parseInt(finishX) === 0){
+      finishX = 10;
+    }
+      
       routeX = startX - finishX;
 
-      for(let i = 1; i < routeX + 1; i++){
-        console.log('bb');
-        const pathElem = document.getElementById(thisFinder.gridStart - i);
-        pathElem.classList.remove(classNames.finder.gridItemClicked, classNames.finder.start, classNames.finder.finish);
+     
 
+      for(let i = 0; i < routeX + 1; i++){
+        //console.log('bb');
+        const pathElem = document.getElementById(thisFinder.gridStart - i );
+        //pathElem.classList.remove(classNames.finder.gridItemClicked, classNames.finder.start, classNames.finder.finish);
+        console.log('test');
         pathElem.classList.add(classNames.finder.path);
-        console.log(pathElem);
         startElement.classList.replace(classNames.finder.start, classNames.finder.path);
+        finishElement.classList.replace(classNames.finder.finish, classNames.finder.path);
+        console.log('col', 'Sx', startX,  'Sy', startY);
+        console.log('col', 'Fx', finishX, 'Fy', finishY);
 
       }
 
     } else if (startX < finishX) {
+      
+      if( parseInt(startX) === 0){
+        startX = 10;
+      }
+      if( parseInt(finishX) === 0){
+        finishX = 10;
+      }
+      
       routeX = finishX - startX;
-
-      for(let i = 1; i < routeX + 1; i++){
+      
+      for(let i = 0 ; i < routeX + 1 ; i++){
         console.log('bb');
-        const pathElem = document.getElementById(thisFinder.gridStart + i);
-        pathElem.classList.remove(classNames.finder.gridItemClicked, classNames.finder.start, classNames.finder.finish);
-
+        const pathElem = document.getElementById(thisFinder.gridStart + i );
         pathElem.classList.add(classNames.finder.path);
-        console.log(pathElem);
+
+        pathElem.classList.replace(classNames.finder.gridItemClicked, classNames.finder.path);
         startElement.classList.replace(classNames.finder.start, classNames.finder.path);
+        startElement.classList.replace(classNames.finder.finish, classNames.finder.path);
 
       }
     } else {
-      routeX = 0;
+      routeX = 9;
+      console.log('route 10')
     }
-
+ 
     if(startY > finishY){
       routeY = startY - finishY;
 
-      for(let i = 1; i < routeY + 1; i++){
-        console.log('bb');
-        const pathElem = document.getElementById(thisFinder.gridFinish + i*10);
-        pathElem.classList.remove(classNames.finder.gridItemClicked, classNames.finder.start, classNames.finder.finish);
+      console.log(thisFinder.gridFinish)
 
+      for(let i = 0; i < routeY; i++){
+        //console.log('bb');
+        const pathElem = document.getElementById(thisFinder.gridFinish + (i*10));
+        pathElem.classList.replace(classNames.finder.gridItemClicked, classNames.finder.path);
         pathElem.classList.add(classNames.finder.path);
+
         console.log(pathElem);
         finishElement.classList.replace(classNames.finder.finish, classNames.finder.path);
+        startElement.classList.replace(classNames.finder.start, classNames.finder.path);
 
       }
       
 
 
       
-    } else if (startX < finishX) {
+    } else if (startY < finishY) {
+      
+      
+      
+      
       routeY = finishY - startY;
 
-      for(let i = 1; i < routeY + 1; i++){
-        console.log('bb');
-        const pathElem = document.getElementById(thisFinder.gridFinish - i*10);
-        pathElem.classList.remove(classNames.finder.gridItemClicked, classNames.finder.start, classNames.finder.finish);
+     
 
+      for(let i = 0; i < routeY + 1; i++){
+        const pathElem = document.getElementById(thisFinder.gridFinish - (i*10));
+        //pathElem.classList.remove(classNames.finder.gridItemClicked, classNames.finder.start, classNames.finder.finish);
+        pathElem.classList.replace(classNames.finder.gridItemClicked, classNames.finder.path);
         pathElem.classList.add(classNames.finder.path);
-        console.log(pathElem);
+
         finishElement.classList.replace(classNames.finder.finish, classNames.finder.path);
+        
       }
     } else {
-      routeY = 0;
+      routeY = 9;
     }
 
-    console.log ('routeX:', routeX, 'routeY', routeY);
+    //console.log ('routeX:', routeX, 'routeY', routeY);
 
 
-
+ 
 
     console.log(thisFinder.coordXY);
   }

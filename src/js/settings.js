@@ -39,6 +39,9 @@ export const classNames = {
     start: 'grid-item-start',
     finish: 'grid-item-finish',
     path: 'grid-item-path',
+    stageOne: '.stage-one',
+    stageTwo: '.stage-two',
+    stageThree: '.stage-three',
   },
 };
 
