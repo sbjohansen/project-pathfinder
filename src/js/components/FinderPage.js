@@ -185,12 +185,22 @@ class FinderPage {
             cellLeft === false && cellTopLeft === false && cellTop === true && cellTopRight === true && cellRight === false && cellBottomRight === true && cellBottom === false && cellBottomLeft === false ||
             cellLeft === false && cellTopLeft === true && cellTop === false && cellTopRight === true && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
             cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === true && cellBottom === false && cellBottomLeft === true ||
-            cellLeft === true && cellTopLeft === true && cellTop === false && cellTopRight === true && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === false
+            cellLeft === true && cellTopLeft === true && cellTop === false && cellTopRight === true && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === true && cellTopLeft === false && cellTop === false && cellTopRight === true && cellRight === true && cellBottomRight === true && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === true && cellTop === false && cellTopRight === false && cellRight === true && cellBottomRight === true && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === false && cellRight === false && cellBottomRight === true && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === false && cellTopLeft === false && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === true && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === false && cellBottomRight === false && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === false && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === true && cellBottom === true && cellBottomLeft === false ||
+            cellLeft === true && cellTopLeft === false && cellTop === true && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === true && cellTopBackup === true ||
+            cellLeft === true && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === true && cellRightBackup === true|| 
+            cellLeft === true && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === false && cellLeftBackup === true ||
+            cellLeft === false && cellTopLeft === false && cellTop === true && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === true && cellBottomLeft === false && cellTopBackup === true ||
+            cellLeft === false && cellTopLeft === false && cellTop === true && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === true && cellBottomLeft === false && cellBottomBackup === true
 
 
-            
       ) {
-        
         //BACKUP CONDITIONS
 
         if(cellLeft === true && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === true && cellBottomLeft === false && cellLeftBackup === false  ||
