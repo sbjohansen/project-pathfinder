@@ -80,6 +80,16 @@ class FinderPage {
       const cellTopRight = thisFinder.clickedGrid.includes(parseInt(clickedElementId - 9 ));
 
 
+      const cellLeftBackup = thisFinder.clickedGrid.includes(parseInt(clickedElementId - 2 ));
+      const cellRightBackup = thisFinder.clickedGrid.includes(parseInt(clickedElementId + 2 ));
+      const cellBottomBackup = thisFinder.clickedGrid.includes(parseInt(clickedElementId + 20 ));
+      const cellTopBackup = thisFinder.clickedGrid.includes(parseInt(clickedElementId - 20 ));
+
+      const cellTopRightBackup = thisFinder.clickedGrid.includes(parseInt(clickedElementId - 18 ));
+      const cellTopLeftBackup = thisFinder.clickedGrid.includes(parseInt(clickedElementId - 22 ));
+      const cellBottomLeftBackup = thisFinder.clickedGrid.includes(parseInt(clickedElementId + 18 ));
+      const cellBottomRightBackup = thisFinder.clickedGrid.includes(parseInt(clickedElementId + 22 ));
+
       if(clickedElement.getAttribute('class') === classNames.finder.gridItem ){
      
         //check if there is any grid active 
@@ -108,47 +118,115 @@ class FinderPage {
           }
         }
       } 
-      else if(thisFinder.lastClickedBackup.classList.contains(classNames.finder.gridItemClicked) && thisFinder.lastClicked != clickedElementId){
-        console.log('cant be removed2');
-        //remove cell when conditions are right
-      } else if(cellRight === true && cellLeft === true && cellBottom === true ||
 
-            cellRight === true && cellLeft === true && cellTop === true ||
-            cellBottom === true && cellLeft === true && cellBottom === true ||
-            cellBottom === true && cellRight === true && cellBottom === true ||    
-            cellBottom === true && cellRight === true && cellBottom === true ||
-            cellBottom === true && cellLeft === true && cellBottom === true ||
-            cellBottomRight === true && cellRight === true && cellTopLeft === true ||
-            cellBottomRight === true && cellLeft === true && cellTopLeft === true ||
-            cellRight === true && cellLeft === true && cellTopLeft === true ||
-            cellRight === true && cellLeft === true && cellBottomRight === true ||
-            cellBottomRight === true && cellRight === false && cellLeft === false ||
-            cellTopLeft === true && cellRight === false &&cellLeft === false ||
-            cellTop === false && cellBottom === false && cellTopRight === true ||
-            thisFinder.clickedGrid.includes(parseInt(clickedElementId)) === true ||
-            cellRight === true && cellLeft === true && cellBottom === false && cellTop === false ||
-            cellBottom === true && cellTop === true && cellRight === false && cellLeft === false    
-      ){
-        if (
+      //CONDITIONS FOR REMOVING MARKED CELLS
+
+      else if (
+        cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === true && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === true && cellRight === true &&  cellBottomRight === true && cellBottom === false &&  cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === true && cellTopLeft === true && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === true ||
+            cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === true && cellBottomRight === true && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === true && cellBottomRight === true && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === false && cellTopLeft === false && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === true && cellBottom === true && cellBottomLeft === false ||
+            cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === true && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === false && cellTopLeft === false && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === true && cellBottomRight === false && cellBottom === true && cellBottomLeft === false ||
+            cellLeft === true && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === true && cellBottomRight === true && cellBottom === false && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === true && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === false && cellTop === true && cellTopRight === true && cellRight === false && cellBottomRight === true && cellBottom === true && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === true && cellTop === true && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === false && cellTopLeft === false && cellTop === true && cellTopRight === false && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === true && cellTopLeft === false && cellTop === true && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === true && cellBottomLeft === false ||
+            cellLeft === true && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === false && cellTop === true && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === true && cellBottomRight === true && cellBottom === true && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === true && cellTop === true && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === false && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === true && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === true && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === false && cellTop === true && cellTopRight === true && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === true && cellBottomRight === true && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === true && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === true && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === true && cellBottom === true && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === true && cellBottom === true && cellBottomLeft === false ||
+            cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === true ||
+            cellLeft === false && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === true && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === true && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === true && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === true && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === false && cellRight === true && cellBottomRight === true && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === false && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === true && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === true && cellBottom === true && cellBottomLeft === false ||
+            cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === false && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === false && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === true && cellRight === true && cellBottomRight === true && cellBottom === true && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === true && cellRight === true && cellBottomRight === true && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === true && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === true && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === true && cellTop === false && cellTopRight === true && cellRight === true && cellBottomRight === true && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === false && cellBottomRight === true && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === true && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === true && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === true && cellBottomRight === true && cellBottom === false && cellBottomLeft === true ||
+            cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === true && cellRight === false && cellBottomRight === true && cellBottom === true && cellBottomLeft === false ||
+            cellLeft === true && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === true && cellBottom === false && cellBottomLeft === true ||
+            cellLeft === false && cellTopLeft === true && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === true && cellBottomLeft === true ||
+            cellLeft === false && cellTopLeft === true && cellTop === true && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === true && cellTop === false && cellTopRight === true && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === false && cellTop === true && cellTopRight === true && cellRight === false && cellBottomRight === true && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === false && cellTopLeft === true && cellTop === false && cellTopRight === true && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === false ||
+            cellLeft === true && cellTopLeft === true && cellTop === true && cellTopRight === true && cellRight === true && cellBottomRight === true && cellBottom === false && cellBottomLeft === true ||
+            cellLeft === true && cellTopLeft === true && cellTop === false && cellTopRight === true && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === false
+
+
+            
+      ) {
         
-          cellRight === true && cellLeft === true && cellBottom === false && cellTop === false ||
-          cellBottom === true && cellTop === true && cellRight === false && cellLeft === false
-         
+        //BACKUP CONDITIONS
 
-          )
-        {
-          console.log('cant remove, line');
-          return;
+        if(cellLeft === true && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === true && cellBottomLeft === false && cellLeftBackup === false  ||
+          cellLeft === true && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === true && cellBottomLeft === false && cellBottomBackup === false ||
+          cellLeft === true && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === true && cellBottomLeft === false && cellBottomLeftBackup === false ||
 
-        } else {
+          cellLeft === true && cellTopLeft === false && cellTop === true && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === false && cellLeftBackup === false ||
+          cellLeft === true && cellTopLeft === false && cellTop === true && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === false && cellTopBackup === false ||
+          cellLeft === true && cellTopLeft === false && cellTop === true && cellTopRight === false && cellRight === false && cellBottomRight === false && cellBottom === false && cellBottomLeft === false && cellTopLeftBackup === false ||
+
+          
+          cellLeft === false && cellTopLeft === false && cellTop === true && cellTopRight === false && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === false && cellRightBackup === false ||
+          cellLeft === false && cellTopLeft === false && cellTop === true && cellTopRight === false && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === false && cellTopBackup === false||
+          cellLeft === false && cellTopLeft === false && cellTop === true && cellTopRight === false && cellRight === true && cellBottomRight === false && cellBottom === false && cellBottomLeft === false && cellTopRightBackup === false||
+
+
+          cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === true && cellBottomRight === false && cellBottom === true && cellBottomLeft === false && cellRightBackup === false  ||
+          cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === true && cellBottomRight === false && cellBottom === true && cellBottomLeft === false && cellBottomBackup === false ||
+          cellLeft === false && cellTopLeft === false && cellTop === false && cellTopRight === false && cellRight === true && cellBottomRight === false && cellBottom === true && cellBottomLeft === false && cellBottomRightBackup === false
+
+
+        ){
+
+          console.log('cant be removed backup');
+        } else { 
+        
           clickedElement.classList.remove(classNames.finder.gridItemClicked);
           const clickedId = thisFinder.clickedGrid.indexOf(parseInt(clickedElement.getAttribute('id')));
           thisFinder.clickedGrid.splice(clickedId, 1);
           thisFinder.lastClicked = clickedElementId;
           console.log('after', thisFinder.clickedGrid);
-        }
+        }} else {
+        console.log('cant remove');
       }
     }
+    
         
     );
   }
