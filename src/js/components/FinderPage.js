@@ -8,7 +8,7 @@ class FinderPage {
 
     thisFinder.render(element);
     thisFinder.initGrid();   
-    thisFinder.initDrawing(); 
+    //thisFinder.initDrawing(); 
     thisFinder.initActions();
     
   }
@@ -32,13 +32,14 @@ class FinderPage {
     thisFinder.dom.wrapper = element;
     thisFinder.dom.gridContainer = document.querySelector(select.containerOf.gridContainer);
     thisFinder.clickedGrid = [];
-    thisFinder.gridStart = '';
-    thisFinder.gridFinish = '';
+    thisFinder.gridStart = 0;
+    thisFinder.gridFinish = 0;
 
     thisFinder.lastClicked = '';
     thisFinder.startButton = thisFinder.dom.wrapper.querySelector(classNames.finder.buttonStart);
     thisFinder.startFinishButton = thisFinder.dom.wrapper.querySelector(classNames.finder.buttonStartFinish);
     thisFinder.computeButton = thisFinder.dom.wrapper.querySelector(classNames.finder.buttonCompute);
+
 
   }
 
@@ -59,7 +60,7 @@ class FinderPage {
       }
     }
     
-    thisFinder.action = true;
+    thisFinder.initDrawing();
 
     makeRows(10, 10);
   }
@@ -77,19 +78,56 @@ class FinderPage {
 
 
     startButton.addEventListener('click', function(event){
+      //const thisFinder = this;
+      
       event.preventDefault();
+
 
       startButton.classList.remove(classNames.finder.buttonActive);
 
       startFinishButton.classList.add(classNames.finder.buttonActive);
 
-      thisFinder.dom.gridContainer.removeEventListener('click', thisFinder.initDrawing());
       thisFinder.lastClicked.classList.replace(classNames.finder.gridItemLastClicked, classNames.finder.gridItemClicked);
+
+      thisFinder.initStartFinish();
+
+      thisFinder.dom.gridContainer.removeEventListener('click', thisFinder.initDrawing(event));
 
     });
 
-    
+    startFinishButton.addEventListener('click', function(event){
+      //const thisFinder = this;
+      
+      event.preventDefault();
 
+
+      startFinishButton.classList.remove(classNames.finder.buttonActive);
+
+      computeButton.classList.add(classNames.finder.buttonActive);
+
+      
+      
+
+    });
+
+    computeButton.addEventListener('click', function(event){
+      //const thisFinder = this;
+      
+      event.preventDefault();
+
+
+      computeButton.classList.remove(classNames.finder.buttonActive);
+
+      startButton.classList.add(classNames.finder.buttonActive);
+
+      
+
+      for(let cell of thisFinder.dom.gridContainer.children){
+        cell.classList.remove(classNames.finder.gridItemClicked);
+
+      }
+
+    });
 
   }
 
@@ -119,10 +157,9 @@ class FinderPage {
       const cellTop = thisFinder.clickedGrid.includes(parseInt(clickedElementId - 10 ));
       const cellBottom = thisFinder.clickedGrid.includes(parseInt(clickedElementId + 10 ));
 
-      
-
+  
       if(clickedElement.getAttribute('class') === classNames.finder.gridItem ){
-    
+        
 
         if(startButton.classList.contains(classNames.finder.buttonActive) === true){
         //check if there is any grid active 
@@ -152,6 +189,10 @@ class FinderPage {
               
 
             }
+          } 
+           if (startFinishButton.classList.contains(classNames.finder.buttonActive) === true) {
+            clickedElement.classList.replace(classNames.finder.gridItemClicked, classNames.finder.start);
+
           }
         } 
 
@@ -178,17 +219,56 @@ class FinderPage {
         } else {
           console.log('not last clicked');
         }
+
+        //END OF ROUTE DRAWING EVENT LISTENER
+
+        
+
+
       }
     });
 
+  }
 
+  initStartFinish(){
+    const thisFinder = this;
+
+    const startFinishButton = thisFinder.dom.wrapper.querySelector(classNames.finder.buttonStartFinish);
+    const computeButton = thisFinder.dom.wrapper.querySelector(classNames.finder.buttonCompute);
 
     
+    thisFinder.dom.gridContainer.addEventListener('click', function(event){
+
+      const clickedElement = event.target;
+
+      const clickedElementId = parseInt(event.target.getAttribute('id'));
+    
+      if(clickedElement.classList.contains(classNames.finder.gridItemClicked)){
+        
+        
+        if(startFinishButton.classList.contains(classNames.finder.buttonActive) === true && thisFinder.gridStart === 0){
+        
+          clickedElement.classList.replace(classNames.finder.gridItemClicked, classNames.finder.start);
+          thisFinder.gridStart = clickedElementId;
+
+        } else if (
+          startFinishButton.classList.contains(classNames.finder.buttonActive) === true && 
+        !clickedElement.classList.contains(classNames.finder.start) && 
+        thisFinder.gridFinish === 0 && thisFinder.gridStart !== 0){
+          clickedElement.classList.replace(classNames.finder.gridItemClicked, classNames.finder.finish);
+          thisFinder.gridFinish = clickedElementId;
+
+          console.log(thisFinder.gridStart, thisFinder.gridFinish);
+        }
+
+        
+      }
+    });
   }
+
 }
 
 
-//END OF ROUTE DRAWING EVENT LISTENER
 
 
 
