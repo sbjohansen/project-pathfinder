@@ -49,6 +49,10 @@ export const settings = {
   gridRows: '--grid-rows',
   gridCols: '--grid-cols',
 
+  db: {
+    url: '//' + window.location.hostname + (window.location.hostname=='localhost' ? ':3131' : ''),
+    
+  },
 };
 
 export const templates = {
