@@ -29,6 +29,16 @@
   background-color: lightcoral;
 }
 
+.grid-item-start {
+  background-color: #6868f9;
+}
+
+.grid-item-finish {
+  background-color: purple;
+
+}
+
+
 .finder-instruction {
   text-align: center;
   margin-bottom: 8%;
@@ -113,13 +123,6 @@
   display: block;
 }
 
-.grid-item-start {
-  background-color: $color-orange2;
-}
-
-.grid-item-finish {
-  background-color: $color-red;
-}
 
 .grid-item-path {
   background-color: $color-green;

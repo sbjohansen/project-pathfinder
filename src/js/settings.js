@@ -18,6 +18,9 @@ export const select = {
 
   finder: {
     buttonStopDrawing: 'finder-start',
+    buttonStart: '.finder-start',
+    buttonStartFinish: '.finder-start-finish',
+    buttonCompute: '.finder-compute',
   }
 };
 
@@ -32,6 +35,9 @@ export const classNames = {
     gridItem: 'grid-item',
     gridItemClicked: 'grid-item-clicked',
     gridItemLastClicked: 'grid-item-last-clicked',
+    gridItemStart: 'grid-item-start',
+    gridItemFinish: 'grid-item-finish',
+
     buttonStart: '.finder-start',
     buttonStartFinish: '.finder-start-finish',
     buttonCompute: '.finder-compute',
