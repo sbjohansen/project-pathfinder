@@ -139,9 +139,7 @@ class FinderPage {
         thisFinder.changeStage(3);
 
         thisFinder.findShortestPath(thisFinder.start, thisFinder.grid);
-        console.log(thisFinder.findShortestPath(thisFinder.start, thisFinder.grid));
-        console.log(thisFinder.grid);
-
+        thisFinder.colorPath(thisFinder.findShortestPath(thisFinder.start, thisFinder.grid));
 
       } if (clickedElement.classList.contains(classNames.finder.buttonActive )){
         computeButton.classList.remove(classNames.finder.buttonActive);
@@ -297,12 +295,12 @@ class FinderPage {
       status: 'Start'
     };
 
+
     // initialize the queue with the start location already inside
 
     var queue = [location];
 
     // Loop through the grid searching for the goal
-
     while (queue.length > 0){
       //tahe the first location off the queue
 
@@ -313,6 +311,7 @@ class FinderPage {
       thisFinder.newLocation = thisFinder.exploreInDirection(currentLocation, 'North', grid);
 
       if (thisFinder.newLocation.status === 'Goal') {
+
         return thisFinder.newLocation.path;
       }else if (thisFinder.newLocation.status === 'Valid') {
         queue.push(thisFinder.newLocation);
@@ -323,6 +322,8 @@ class FinderPage {
       thisFinder.newLocation = thisFinder.exploreInDirection(currentLocation, 'East', grid);
 
       if (thisFinder.newLocation.status === 'Goal') {
+        console.log('test', thisFinder.newLocation.path)
+
         return thisFinder.newLocation.path;
 
       } else if (thisFinder.newLocation.status === 'Valid') {
@@ -334,6 +335,8 @@ class FinderPage {
       thisFinder.newLocation = thisFinder.exploreInDirection(currentLocation, 'South', grid);
 
       if (thisFinder.newLocation.status === 'Goal') {
+        console.log('test', thisFinder.newLocation.path)
+
         return thisFinder.newLocation.path;
       }else if (thisFinder.newLocation.status === 'Valid') {
         queue.push(thisFinder.newLocation);
@@ -344,6 +347,7 @@ class FinderPage {
       thisFinder.newLocation = thisFinder.exploreInDirection(currentLocation, 'West', grid);
 
       if (thisFinder.newLocation.status === 'Goal') {
+        console.log('test', thisFinder.newLocation.path)
         return thisFinder.newLocation.path;
       } else if (thisFinder.newLocation.status === 'Valid') {
         queue.push(thisFinder.newLocation);
@@ -372,7 +376,7 @@ class FinderPage {
       return false;
     } else if (grid[dft][dfl] === 'Goal'){
       //console.log([grid.row][grid.col]);
-
+      console.log(thisFinder.grid);
       return 'Goal';
 
     } else if (grid[dft][dfl] !== true ) {
@@ -419,7 +423,55 @@ class FinderPage {
     return newLocation;
   }
 
+  colorPath(path){
+    const thisFinder = this;
 
+    const pathArray = path;
+
+    thisFinder.currentElement = thisFinder.start;
+
+
+    pathArray.forEach(colorFunction);
+
+    function colorFunction(element) {
+      const toColor = thisFinder.dom.gridContainer.querySelector('[data-col="' + thisFinder.start[1] + '"]' + '[data-row="' + thisFinder.start[0] + '"]' );
+      toColor.classList.replace(classNames.finder.gridItemClicked, classNames.finder.path);
+      console.log('tocolor', toColor);
+
+      if(element === 'North'){
+        const row = parseInt(thisFinder.currentElement[0] - 1);
+        const col = parseInt(thisFinder.currentElement[1]);
+        const toColor = thisFinder.dom.gridContainer.querySelector('[data-col="' + col + '"]' + '[data-row="' + row + '"]' );
+
+        toColor.classList.replace(classNames.finder.gridItemClicked, classNames.finder.path);
+        thisFinder.currentElement = [row, col];
+      } else if(element === 'South') {
+        const row = parseInt(thisFinder.currentElement[0] + 1);
+        const col = parseInt(thisFinder.currentElement[1]);
+        const toColor = thisFinder.dom.gridContainer.querySelector('[data-col="' + col + '"]' + '[data-row="' + row + '"]' );
+
+        toColor.classList.replace(classNames.finder.gridItemClicked, classNames.finder.path);
+        thisFinder.currentElement = [row, col];
+
+      } else if(element === 'East') {
+        const row = parseInt(thisFinder.currentElement[0]);
+        const col = parseInt(thisFinder.currentElement[1] + 1 );
+        const toColor = thisFinder.dom.gridContainer.querySelector('[data-col="' + col + '"]' + '[data-row="' + row + '"]' );
+
+        toColor.classList.replace(classNames.finder.gridItemClicked, classNames.finder.path);
+        thisFinder.currentElement = [row, col];
+
+      } else if(element === 'West') {
+        const row = parseInt(thisFinder.currentElement[0]);
+        const col = parseInt(thisFinder.currentElement[1] - 1);
+        const toColor = thisFinder.dom.gridContainer.querySelector('[data-col="' + col + '"]' + '[data-row="' + row + '"]' );
+
+        toColor.classList.replace(classNames.finder.gridItemClicked, classNames.finder.path);
+        thisFinder.currentElement = [row, col];
+      }
+
+    }
+  }
   
   
 
