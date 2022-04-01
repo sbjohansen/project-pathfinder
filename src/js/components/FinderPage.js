@@ -187,7 +187,7 @@ class FinderPage {
   cleanUp(){
     const thisFinder = this;
     for(let grid of thisFinder.dom.gridContainer.children)
-    grid.classList.remove(classNames.finder.finish, classNames.finder.gridItemStart, classNames.finder.path, classNames.finder.gridItemClicked);
+      grid.classList.remove(classNames.finder.finish, classNames.finder.gridItemStart, classNames.finder.path, classNames.finder.gridItemClicked);
     thisFinder.previouslyClickedElem = '';
     thisFinder.grid = [];
     for(let row = 0; row < 10; row++) {
@@ -295,7 +295,7 @@ class FinderPage {
       thisFinder.grid[clickedField.row][clickedField.col] = 'Start';
       thisFinder.start.push(clickedField.row, clickedField.col);
       clickedElement.classList.replace(classNames.finder.gridItemClicked, classNames.finder.gridItemStart);
-      console.log(thisFinder.start)
+      //console.log(thisFinder.start)
     }
 
     if(clickedElement.classList.contains(classNames.finder.gridItemClicked) && !gridValues.includes('Goal') && thisFinder.grid[clickedField.row][clickedField.col] !== 'Start'){
@@ -317,7 +317,7 @@ class FinderPage {
     var distanceFromTop = startCoordinates[0];
     var distanceFromLeft = startCoordinates[1];
 
-    console.log('start', startCoordinates);
+    //console.log('start', startCoordinates);
 
     // Each location will store it's coordinates
     // and the shortest path required to arrive there
@@ -356,7 +356,7 @@ class FinderPage {
       thisFinder.newLocation = thisFinder.exploreInDirection(currentLocation, 'East', grid);
 
       if (thisFinder.newLocation.status === 'Goal') {
-        console.log('test', thisFinder.newLocation.path)
+        //console.log('test', thisFinder.newLocation.path)
 
         return thisFinder.newLocation.path;
 
@@ -369,7 +369,7 @@ class FinderPage {
       thisFinder.newLocation = thisFinder.exploreInDirection(currentLocation, 'South', grid);
 
       if (thisFinder.newLocation.status === 'Goal') {
-        console.log('test', thisFinder.newLocation.path)
+        //console.log('test', thisFinder.newLocation.path)
 
         return thisFinder.newLocation.path;
       }else if (thisFinder.newLocation.status === 'Valid') {
@@ -381,7 +381,7 @@ class FinderPage {
       thisFinder.newLocation = thisFinder.exploreInDirection(currentLocation, 'West', grid);
 
       if (thisFinder.newLocation.status === 'Goal') {
-        console.log('test', thisFinder.newLocation.path)
+        //console.log('test', thisFinder.newLocation.path);
         return thisFinder.newLocation.path;
       } else if (thisFinder.newLocation.status === 'Valid') {
         queue.push(thisFinder.newLocation);
@@ -394,7 +394,6 @@ class FinderPage {
   }
 
   locationStatus(location, grid) {
-    const thisFinder = this;
     var gridSize = grid.length;
     var dft = location.distanceFromTop;
     var dfl = location.distanceFromLeft;
@@ -410,7 +409,7 @@ class FinderPage {
       return false;
     } else if (grid[dft][dfl] === 'Goal'){
       //console.log([grid.row][grid.col]);
-      console.log(thisFinder.grid);
+      //console.log(thisFinder.grid);
       return 'Goal';
 
     } else if (grid[dft][dfl] !== true ) {
@@ -470,7 +469,7 @@ class FinderPage {
     function colorFunction(element) {
       const toColor = thisFinder.dom.gridContainer.querySelector('[data-col="' + thisFinder.start[1] + '"]' + '[data-row="' + thisFinder.start[0] + '"]' );
       toColor.classList.replace(classNames.finder.gridItemClicked, classNames.finder.path);
-      console.log('tocolor', toColor);
+      //console.log('tocolor', toColor);
 
       if(element === 'North'){
         const row = parseInt(thisFinder.currentElement[0] - 1);
