@@ -1,7 +1,6 @@
 import {select, templates, settings, classNames} from '../settings.js';
 import utils from '../utils.js';
 
-
 class FinderPage {
   constructor(element){
     const thisFinder = this;
@@ -128,6 +127,10 @@ class FinderPage {
         event.preventDefault();
         thisFinder.lastClicked.classList.replace(classNames.finder.gridItemLastClicked, classNames.finder.gridItemClicked);
         thisFinder.previouslyClickedElem.classList.replace(classNames.finder.gridItemLastClicked, classNames.finder.gridItemClicked);
+        thisFinder.dom.wrapper.querySelector(classNames.finder.stageOne).classList.remove(classNames.finder.buttonActive);
+        thisFinder.dom.wrapper.querySelector(classNames.finder.stageTwo).classList.add(classNames.finder.buttonActive);
+
+        
         thisFinder.changeStage(2);
 
         startButton.classList.remove(classNames.finder.buttonActive);
@@ -137,14 +140,25 @@ class FinderPage {
         startFinishButton.classList.remove(classNames.finder.buttonActive);
         computeButton.classList.add(classNames.finder.buttonActive);
         thisFinder.changeStage(3);
+        thisFinder.dom.wrapper.querySelector(classNames.finder.stageTwo).classList.remove(classNames.finder.buttonActive);
+        thisFinder.dom.wrapper.querySelector(classNames.finder.stageThree).classList.add(classNames.finder.buttonActive);
 
         thisFinder.findShortestPath(thisFinder.start, thisFinder.grid);
         thisFinder.colorPath(thisFinder.findShortestPath(thisFinder.start, thisFinder.grid));
 
       } if (clickedElement.classList.contains(classNames.finder.buttonActive )){
+        event.preventDefault();
         computeButton.classList.remove(classNames.finder.buttonActive);
         startButton.classList.add(classNames.finder.buttonActive);
+
+        thisFinder.cleanUp();
+        thisFinder.dom.wrapper.querySelector(classNames.finder.stageThree).classList.remove(classNames.finder.buttonActive);
+        thisFinder.dom.wrapper.querySelector(classNames.finder.stageOne).classList.add(classNames.finder.buttonActive);
+        
+        
+
         thisFinder.changeStage(1);
+  
 
       }
 
@@ -169,6 +183,26 @@ class FinderPage {
     });
 
   } 
+
+  cleanUp(){
+    const thisFinder = this;
+    for(let grid of thisFinder.dom.gridContainer.children)
+    grid.classList.remove(classNames.finder.finish, classNames.finder.gridItemStart, classNames.finder.path, classNames.finder.gridItemClicked);
+    thisFinder.previouslyClickedElem = '';
+    thisFinder.grid = [];
+    for(let row = 0; row < 10; row++) {
+      thisFinder.grid[row] = [];
+      for(let col = 0; col < 10; col++) {
+        thisFinder.grid[row][col] = false;
+      }
+    }
+
+    thisFinder.clickedGridOrderX = [];
+    thisFinder.clickedGridOrderY = [];  
+    thisFinder.start = [];
+    thisFinder.finish = [];
+    thisFinder.dom.gridContainer.removeEventListener('click', thisFinder.markField());
+  }
 
   markField(clickedElement){
     const thisFinder = this;
