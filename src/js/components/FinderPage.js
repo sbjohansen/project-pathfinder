@@ -13,16 +13,19 @@ class FinderPage {
 
     thisFinder.initActions();
     
-    thisFinder.grid = {};
-    for(let row = 1; row <= 10; row++) {
-      thisFinder.grid[row] = {};
-      for(let col = 1; col <= 10; col++) {
+    thisFinder.grid = [];
+    for(let row = 0; row < 10; row++) {
+      thisFinder.grid[row] = [];
+      for(let col = 0; col < 10; col++) {
         thisFinder.grid[row][col] = false;
       }
     }
 
     thisFinder.clickedGridOrderX = [];
     thisFinder.clickedGridOrderY = [];
+
+    thisFinder.start = [];
+    thisFinder.finish = [];
 
   }
 
@@ -86,13 +89,13 @@ class FinderPage {
     function makeRows(rows, cols) {
       container.style.setProperty(settings.gridRows, rows);
       container.style.setProperty(settings.gridCols, cols);
-      for (rows = 1; rows <= 10; rows++) {
-        for(cols = 1; cols <= 10; cols++){
+      for (rows = 0; rows < 10; rows++) {
+        for(cols = 0; cols < 10; cols++){
           let cell = document.createElement('div');
           //cell.innerText = (c + 1);
           container.appendChild(cell).className = classNames.finder.gridItem;
-          container.appendChild(cell).setAttribute('data-row', rows );
-          container.appendChild(cell).setAttribute('data-col', cols );
+          container.appendChild(cell).setAttribute('data-row', rows  );
+          container.appendChild(cell).setAttribute('data-col', cols  );
         }
       }
     }
@@ -117,7 +120,7 @@ class FinderPage {
 
       const clickedElement = event.target;
       
-      console.log(clickedElement);
+      //console.log(clickedElement);
 
 
       if(clickedElement.classList.contains(classNames.finder.buttonActive )){
@@ -134,6 +137,11 @@ class FinderPage {
         startFinishButton.classList.remove(classNames.finder.buttonActive);
         computeButton.classList.add(classNames.finder.buttonActive);
         thisFinder.changeStage(3);
+
+        thisFinder.findShortestPath(thisFinder.start, thisFinder.grid);
+        console.log(thisFinder.findShortestPath(thisFinder.start, thisFinder.grid));
+        console.log(thisFinder.grid);
+
 
       } if (clickedElement.classList.contains(classNames.finder.buttonActive )){
         computeButton.classList.remove(classNames.finder.buttonActive);
@@ -208,10 +216,10 @@ class FinderPage {
 
         if(gridValues.includes(true)) {
           const edgeFields = [];
-          if(clickedField.col > 1) edgeFields.push(thisFinder.grid[clickedField.row][clickedField.col-1]); //get field on the left value
-          if(clickedField.col < 10) edgeFields.push(thisFinder.grid[clickedField.row][clickedField.col+1]); //get field on the right value
-          if(clickedField.row > 1) edgeFields.push(thisFinder.grid[clickedField.row-1][clickedField.col]); //get field on the top value
-          if(clickedField.row < 10) edgeFields.push(thisFinder.grid[clickedField.row+1][clickedField.col]); //get field on the bottom value
+          if(clickedField.col > 0) edgeFields.push(thisFinder.grid[clickedField.row][clickedField.col-1]); //get field on the left value
+          if(clickedField.col < 9) edgeFields.push(thisFinder.grid[clickedField.row][clickedField.col+1]); //get field on the right value
+          if(clickedField.row > 0) edgeFields.push(thisFinder.grid[clickedField.row-1][clickedField.col]); //get field on the top value
+          if(clickedField.row < 9) edgeFields.push(thisFinder.grid[clickedField.row+1][clickedField.col]); //get field on the bottom value
 
           if(!edgeFields.includes(true)){
             alert('A new field should touch at least one that is already selected!');
@@ -220,6 +228,7 @@ class FinderPage {
         }
       
         thisFinder.grid[clickedField.row][clickedField.col] = true;
+        //console.log(thisFinder.grid[clickedField.row][clickedField.col])
         clickedElement.classList.add(classNames.finder.gridItemLastClicked);
 
         thisFinder.lastClicked = clickedElement;
@@ -241,8 +250,8 @@ class FinderPage {
     const thisFinder = this;
 
     const clickedField = {
-      row: parseInt(clickedElement.getAttribute('data-row')),
-      col: parseInt(clickedElement.getAttribute('data-col')),
+      row: parseInt(clickedElement.getAttribute('data-row') ),
+      col: parseInt(clickedElement.getAttribute('data-col') ),
 
     };
 
@@ -250,26 +259,177 @@ class FinderPage {
       .map(col => Object.values(col))
       .flat();
 
-    if(!gridValues.includes('start')){
-      thisFinder.grid[clickedField.row][clickedField.col] = 'start';
+    if(!gridValues.includes('Start')){
+      thisFinder.grid[clickedField.row][clickedField.col] = 'Start';
+      thisFinder.start.push(clickedField.row, clickedField.col);
       clickedElement.classList.replace(classNames.finder.gridItemClicked, classNames.finder.gridItemStart);
+      console.log(thisFinder.start)
     }
 
-    if(clickedElement.classList.contains(classNames.finder.gridItemClicked) && !gridValues.includes('finish') && thisFinder.grid[clickedField.row][clickedField.col] !== 'start'){
-      thisFinder.grid[clickedField.row][clickedField.col] = 'finish';
+    if(clickedElement.classList.contains(classNames.finder.gridItemClicked) && !gridValues.includes('Goal') && thisFinder.grid[clickedField.row][clickedField.col] !== 'Start'){
+      thisFinder.grid[clickedField.row][clickedField.col] = 'Goal';
+      thisFinder.finish.push(clickedField.row, clickedField.col);
       clickedElement.classList.replace(classNames.finder.gridItemClicked, classNames.finder.gridItemFinish);
+      //console.log(thisFinder.finish);
 
     }
   }
 
+  findShortestPath(startCoordinates, grid){
+    const thisFinder = this;
 
-  pathfinding(){
+    //queue for pathfinding
 
+    //start location
+
+    var distanceFromTop = startCoordinates[0];
+    var distanceFromLeft = startCoordinates[1];
+
+    console.log('start', startCoordinates);
+
+    // Each location will store it's coordinates
+    // and the shortest path required to arrive there
+
+    var location = {
+      distanceFromTop: distanceFromTop,
+      distanceFromLeft: distanceFromLeft,
+      path: [],
+      status: 'Start'
+    };
+
+    // initialize the queue with the start location already inside
+
+    var queue = [location];
+
+    // Loop through the grid searching for the goal
+
+    while (queue.length > 0){
+      //tahe the first location off the queue
+
+      var currentLocation = queue.shift();
+
+      //Explore up
+
+      thisFinder.newLocation = thisFinder.exploreInDirection(currentLocation, 'North', grid);
+
+      if (thisFinder.newLocation.status === 'Goal') {
+        return thisFinder.newLocation.path;
+      }else if (thisFinder.newLocation.status === 'Valid') {
+        queue.push(thisFinder.newLocation);
+      }
+
+      // Explore right
+
+      thisFinder.newLocation = thisFinder.exploreInDirection(currentLocation, 'East', grid);
+
+      if (thisFinder.newLocation.status === 'Goal') {
+        return thisFinder.newLocation.path;
+
+      } else if (thisFinder.newLocation.status === 'Valid') {
+        queue.push(thisFinder.newLocation);
+      }
+
+      //Explore down
+
+      thisFinder.newLocation = thisFinder.exploreInDirection(currentLocation, 'South', grid);
+
+      if (thisFinder.newLocation.status === 'Goal') {
+        return thisFinder.newLocation.path;
+      }else if (thisFinder.newLocation.status === 'Valid') {
+        queue.push(thisFinder.newLocation);
+      }
+
+      //Explore right
+
+      thisFinder.newLocation = thisFinder.exploreInDirection(currentLocation, 'West', grid);
+
+      if (thisFinder.newLocation.status === 'Goal') {
+        return thisFinder.newLocation.path;
+      } else if (thisFinder.newLocation.status === 'Valid') {
+        queue.push(thisFinder.newLocation);
+      }
+    }
+
+    // No valid path found
+    return false;
+
+  }
+
+  locationStatus(location, grid) {
+    const thisFinder = this;
+    var gridSize = grid.length;
+    var dft = location.distanceFromTop;
+    var dfl = location.distanceFromLeft;
+
+    //console.log('dft', dft, 'dfl', dfl)
+
+    if (location.distanceFromLeft < 0 ||
+    location.distanceFromLeft >= gridSize ||
+    location.distanceFromTop < 0 ||
+    location.distanceFromTop >= gridSize) {
+
+      //location is not on the grid -- return false
+      return false;
+    } else if (grid[dft][dfl] === 'Goal'){
+      //console.log([grid.row][grid.col]);
+
+      return 'Goal';
+
+    } else if (grid[dft][dfl] !== true ) {
+      //console.log([grid.row][grid.col]);
+      // location is either an obstacle or has been visited
+      return 'Blocked';
+    } else {
+      return 'Valid';
+    }
+  }
+
+  
+  exploreInDirection(currentLocation, direction, grid) {
+
+    const thisFinder = this;
+    var newPath = currentLocation.path.slice();
+    newPath.push(direction);
+
+    var dft = currentLocation.distanceFromTop;
+    var dfl = currentLocation.distanceFromLeft;
+
+    if (direction === 'North') {
+      dft -= 1;
+    } else if (direction === 'East') {
+      dfl += 1;
+    } else if (direction === 'South') {
+      dft += 1;
+    } else if (direction === 'West') {
+      dfl -= 1;
+    }
+
+    var newLocation = {
+      distanceFromTop: dft,
+      distanceFromLeft: dfl,
+      path: newPath,
+      status: 'Unknown'
+    };
+    newLocation.status = thisFinder.locationStatus(newLocation, grid);
+
+    if(newLocation.status === true) {
+      grid[newLocation.distanceFromTop][newLocation.distanceFromLeft] = 'Visited';
+    }
+
+    return newLocation;
+  }
+
+
+  
+  
 
     
-  }
+
+
+
 
 }
+
 
 
 
