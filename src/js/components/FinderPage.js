@@ -82,7 +82,7 @@ class FinderPage {
     const thisFinder = this;
     thisFinder.stage = newStage;
 
-    console.log(thisFinder.stage);
+    //console.log(thisFinder.stage);
   }
 
   initGrid(){
@@ -144,8 +144,8 @@ class FinderPage {
         computeButton.classList.add(classNames.finder.buttonActive);
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageTwo).classList.remove(classNames.finder.buttonActive);
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageThree).classList.add(classNames.finder.buttonActive);
-          thisFinder.colorPath(thisFinder.findShortestPath(thisFinder.start, thisFinder.grid));
-          thisFinder.changeStage(3);
+        thisFinder.colorPath(thisFinder.findShortestPath(thisFinder.start, thisFinder.grid));
+        thisFinder.changeStage(3);
 
         
       } if (clickedElement.classList.contains(classNames.finder.buttonActive ) && thisFinder.stage === 3){
@@ -201,14 +201,13 @@ class FinderPage {
         thisFinder.grid[row][col] = false;
       }
       thisFinder.changeStage(1);
-      console.log(thisFinder.stage);
+      //console.log(thisFinder.stage);
     }
 
     thisFinder.clickedGridOrderX = [];
     thisFinder.clickedGridOrderY = [];  
     thisFinder.start = [];
     thisFinder.finish = [];
-    thisFinder.dom.gridContainer.removeEventListener('click', thisFinder.markField());
   }
 
   markField(clickedElement){
@@ -282,6 +281,8 @@ class FinderPage {
           thisFinder.previouslyClickedElem.classList.replace(classNames.finder.gridItemLastClicked, classNames.finder.gridItemClicked);
         }
       }
+    } else {
+      return;
     }
   }
 
