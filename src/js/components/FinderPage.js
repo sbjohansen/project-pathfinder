@@ -81,8 +81,6 @@ class FinderPage {
   changeStage(newStage) {
     const thisFinder = this;
     thisFinder.stage = newStage;
-
-    //console.log(thisFinder.stage);
   }
 
   initGrid(){
@@ -122,24 +120,20 @@ class FinderPage {
 
       const clickedElement = event.target;
       
-      //console.log(clickedElement);
-
-
       if(clickedElement.classList.contains(classNames.finder.buttonActive ) && thisFinder.stage === 1){
-
         event.preventDefault();
+
         thisFinder.lastClicked.classList.replace(classNames.finder.gridItemLastClicked, classNames.finder.gridItemClicked);
         thisFinder.previouslyClickedElem.classList.replace(classNames.finder.gridItemLastClicked, classNames.finder.gridItemClicked);
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageOne).classList.remove(classNames.finder.buttonActive);
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageTwo).classList.add(classNames.finder.buttonActive);
-
-        
         thisFinder.changeStage(2);
-
         startButton.classList.remove(classNames.finder.buttonActive);
         startFinishButton.classList.add(classNames.finder.buttonActive);
+
       } if(clickedElement.classList.contains(classNames.finder.buttonActive ) && thisFinder.stage === 2) {
         event.preventDefault();
+
         startFinishButton.classList.remove(classNames.finder.buttonActive);
         computeButton.classList.add(classNames.finder.buttonActive);
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageTwo).classList.remove(classNames.finder.buttonActive);
@@ -147,21 +141,15 @@ class FinderPage {
         thisFinder.colorPath(thisFinder.findShortestPath(thisFinder.start, thisFinder.grid));
         thisFinder.changeStage(3);
 
-        
       } if (clickedElement.classList.contains(classNames.finder.buttonActive ) && thisFinder.stage === 3){
         event.preventDefault();
+
         computeButton.classList.remove(classNames.finder.buttonActive);
         startButton.classList.add(classNames.finder.buttonActive);
-
         thisFinder.cleanUp();
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageThree).classList.remove(classNames.finder.buttonActive);
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageOne).classList.add(classNames.finder.buttonActive);
         thisFinder.changeStage(1);
-
-        
-
-  
-
       }
 
     });
@@ -173,12 +161,10 @@ class FinderPage {
       const clickedElement = event.target;
 
       if(clickedElement.classList.contains(classNames.finder.gridItem) && thisFinder.stage === 1){
-
         thisFinder.markField(clickedElement);
+
       } else if (thisFinder.stage === 2) {
-
         if(clickedElement.classList.contains(classNames.finder.gridItemClicked)){
-
           thisFinder.startFinish(clickedElement);
         }
       }
@@ -191,6 +177,7 @@ class FinderPage {
 
   cleanUp(){
     const thisFinder = this;
+
     for(let grid of thisFinder.dom.gridContainer.children)
       grid.classList.remove(classNames.finder.finish, classNames.finder.gridItemStart, classNames.finder.path, classNames.finder.gridItemClicked);
     thisFinder.previouslyClickedElem = '';
@@ -201,7 +188,6 @@ class FinderPage {
         thisFinder.grid[row][col] = false;
       }
       thisFinder.changeStage(1);
-      //console.log(thisFinder.stage);
     }
 
     thisFinder.clickedGridOrderX = [];
@@ -214,7 +200,6 @@ class FinderPage {
     const thisFinder = this;
 
     if(thisFinder.stage === 1 ){
-    //console.log(thisFinder.grid);
 
       const clickedField = {
         row: parseInt(clickedElement.getAttribute('data-row')),
@@ -235,11 +220,9 @@ class FinderPage {
           thisFinder.clickedGridOrderX.pop();
           thisFinder.clickedGridOrderY.pop();
 
-
           //change last clicked item after removing last from array
 
           thisFinder.previouslyClickedElem = thisFinder.dom.gridContainer.querySelector('[data-col="' + thisFinder.clickedGridOrderY[thisFinder.clickedGridOrderY.length - 1] + '"]' + '[data-row="' + thisFinder.clickedGridOrderX[thisFinder.clickedGridOrderX.length - 1] + '"]' );
-
 
           if(thisFinder.previouslyClickedElem !== null){
             thisFinder.previouslyClickedElem.classList.replace(classNames.finder.gridItemClicked, classNames.finder.gridItemLastClicked);
@@ -266,7 +249,6 @@ class FinderPage {
         }
       
         thisFinder.grid[clickedField.row][clickedField.col] = true;
-        //console.log(thisFinder.grid[clickedField.row][clickedField.col])
         clickedElement.classList.add(classNames.finder.gridItemLastClicked);
 
         thisFinder.lastClicked = clickedElement;
@@ -302,16 +284,13 @@ class FinderPage {
     if(!gridValues.includes('Start')){
       thisFinder.grid[clickedField.row][clickedField.col] = 'Start';
       thisFinder.start.push(clickedField.row, clickedField.col);
-      console.log(thisFinder.start);
       clickedElement.classList.replace(classNames.finder.gridItemClicked, classNames.finder.gridItemStart);
-      //console.log(thisFinder.start)
     }
 
     if(clickedElement.classList.contains(classNames.finder.gridItemClicked) && !gridValues.includes('Goal') && thisFinder.grid[clickedField.row][clickedField.col] !== 'Start'){
       thisFinder.grid[clickedField.row][clickedField.col] = 'Goal';
       thisFinder.finish.push(clickedField.row, clickedField.col);
       clickedElement.classList.replace(classNames.finder.gridItemClicked, classNames.finder.gridItemFinish);
-      //console.log(thisFinder.finish);
 
     }
   }
@@ -319,14 +298,10 @@ class FinderPage {
   findShortestPath(startCoordinates, grid){
     const thisFinder = this;
 
-    //queue for pathfinding
-
     //start location
 
     const distanceFromTop = parseInt(startCoordinates[0]);
     const distanceFromLeft = parseInt(startCoordinates[1]);
-
-    //console.log('start', startCoordinates);
 
     // Each location will store it's coordinates
     // and the shortest path required to arrive there
@@ -345,28 +320,23 @@ class FinderPage {
 
     // Loop through the grid searching for the goal
     while (queue.length > 0){
-      //tahe the first location off the queue
-      console.log(queue);
+      //take the first location off the queue
       let currentLocation = queue.shift();
 
       //Explore up
-
       thisFinder.newLocation = thisFinder.exploreInDirection(currentLocation, 'North', grid);
 
       if (thisFinder.newLocation.status === 'Goal') {
 
         return thisFinder.newLocation.path;
-      }else if (thisFinder.newLocation.status === 'Valid') {
+      } else if (thisFinder.newLocation.status === 'Valid') {
         queue.push(thisFinder.newLocation);
       }
 
       // Explore right
-
       thisFinder.newLocation = thisFinder.exploreInDirection(currentLocation, 'East', grid);
 
       if (thisFinder.newLocation.status === 'Goal') {
-        //console.log('test', thisFinder.newLocation.path)
-
         return thisFinder.newLocation.path;
 
       } else if (thisFinder.newLocation.status === 'Valid') {
@@ -374,24 +344,21 @@ class FinderPage {
       }
 
       //Explore down
-
       thisFinder.newLocation = thisFinder.exploreInDirection(currentLocation, 'South', grid);
 
       if (thisFinder.newLocation.status === 'Goal') {
-        //console.log('test', thisFinder.newLocation.path)
-
         return thisFinder.newLocation.path;
+
       }else if (thisFinder.newLocation.status === 'Valid') {
         queue.push(thisFinder.newLocation);
       }
 
       //Explore right
-
       thisFinder.newLocation = thisFinder.exploreInDirection(currentLocation, 'West', grid);
 
       if (thisFinder.newLocation.status === 'Goal') {
-        //console.log('test', thisFinder.newLocation.path);
         return thisFinder.newLocation.path;
+
       } else if (thisFinder.newLocation.status === 'Valid') {
         queue.push(thisFinder.newLocation);
       }
@@ -399,15 +366,12 @@ class FinderPage {
 
     // No valid path found
     return false;
-
   }
 
   locationStatus(location, grid) {
     const gridSize = 10;
     const dft = location.distanceFromTop;
     const dfl = location.distanceFromLeft;
-
-    //console.log('dft', dft, 'dfl', dfl)
 
     if (location.distanceFromLeft < 0 ||
     location.distanceFromLeft >= gridSize ||
@@ -416,15 +380,14 @@ class FinderPage {
 
       //location is not on the grid -- return false
       return false;
+
     } else if (grid[dft][dfl] === 'Goal'){
-      //console.log([grid.row][grid.col]);
-      //console.log(thisFinder.grid);
       return 'Goal';
 
     } else if (grid[dft][dfl] !== true ) {
-      console.log([grid.row][grid.col]);
       // location is either an obstacle or has been visited
       return false;
+
     } else {
       return 'Valid';
     }
@@ -461,26 +424,21 @@ class FinderPage {
     if(newLocation.status === 'Valid') {
       grid[newLocation.distanceFromTop][newLocation.distanceFromLeft] = 'Visited';
     }
-
     return newLocation;
   }
 
   colorPath(path){
     
     const thisFinder = this;
-
-    
     const pathArray = path;
 
     thisFinder.currentElement = thisFinder.start;
 
-    
     pathArray.forEach(colorFunction);
 
     function colorFunction(element) {
       const toColor = thisFinder.dom.gridContainer.querySelector('[data-col="' + thisFinder.start[1] + '"]' + '[data-row="' + thisFinder.start[0] + '"]' );
       toColor.classList.replace(classNames.finder.gridItemClicked, classNames.finder.path);
-      //console.log('tocolor', toColor);
 
       if(element === 'North'){
         const row = parseInt(thisFinder.currentElement[0] - 1);
@@ -489,6 +447,7 @@ class FinderPage {
 
         toColor.classList.replace(classNames.finder.gridItemClicked, classNames.finder.path);
         thisFinder.currentElement = [row, col];
+
       } else if(element === 'South') {
         const row = parseInt(thisFinder.currentElement[0] + 1);
         const col = parseInt(thisFinder.currentElement[1]);
@@ -501,7 +460,7 @@ class FinderPage {
         const row = parseInt(thisFinder.currentElement[0]);
         const col = parseInt(thisFinder.currentElement[1] + 1 );
         const toColor = thisFinder.dom.gridContainer.querySelector('[data-col="' + col + '"]' + '[data-row="' + row + '"]' );
-
+        
         toColor.classList.replace(classNames.finder.gridItemClicked, classNames.finder.path);
         thisFinder.currentElement = [row, col];
 
@@ -513,23 +472,8 @@ class FinderPage {
         toColor.classList.replace(classNames.finder.gridItemClicked, classNames.finder.path);
         thisFinder.currentElement = [row, col];
       }
-
     }
   }
-  
-  
-
-    
-
-
-
-
 }
-
-
-
-
-
-
 
 export default FinderPage;
