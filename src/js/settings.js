@@ -40,7 +40,7 @@ export const classNames = {
 
     buttonStart: '.finder-start',
     buttonStartFinish: '.finder-start-finish',
-    buttonCompute: '.finder-compute',
+    buttonCompute: 'finder-compute',
     buttonActive: 'button-active',
     start: 'grid-item-start',
     finish: 'grid-item-finish',

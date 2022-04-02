@@ -136,20 +136,20 @@ class FinderPage {
         startButton.classList.remove(classNames.finder.buttonActive);
         startFinishButton.classList.add(classNames.finder.buttonActive);
       } if(clickedElement.classList.contains(classNames.finder.buttonActive )){
-        
+        event.preventDefault();
         startFinishButton.classList.remove(classNames.finder.buttonActive);
         computeButton.classList.add(classNames.finder.buttonActive);
         thisFinder.changeStage(3);
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageTwo).classList.remove(classNames.finder.buttonActive);
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageThree).classList.add(classNames.finder.buttonActive);
-
-        thisFinder.findShortestPath(thisFinder.start, thisFinder.grid);
-        thisFinder.colorPath(thisFinder.findShortestPath(thisFinder.start, thisFinder.grid));
-
+        if(thisFinder.stage === 3){
+          thisFinder.colorPath(thisFinder.findShortestPath(thisFinder.start, thisFinder.grid));
+        }
       } if (clickedElement.classList.contains(classNames.finder.buttonActive )){
         event.preventDefault();
         computeButton.classList.remove(classNames.finder.buttonActive);
         startButton.classList.add(classNames.finder.buttonActive);
+        thisFinder.changeStage(1);
 
         thisFinder.cleanUp();
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageThree).classList.remove(classNames.finder.buttonActive);
@@ -157,7 +157,6 @@ class FinderPage {
         
         
 
-        thisFinder.changeStage(1);
   
 
       }
@@ -294,6 +293,7 @@ class FinderPage {
     if(!gridValues.includes('Start')){
       thisFinder.grid[clickedField.row][clickedField.col] = 'Start';
       thisFinder.start.push(clickedField.row, clickedField.col);
+      console.log(thisFinder.start);
       clickedElement.classList.replace(classNames.finder.gridItemClicked, classNames.finder.gridItemStart);
       //console.log(thisFinder.start)
     }
@@ -314,8 +314,8 @@ class FinderPage {
 
     //start location
 
-    var distanceFromTop = startCoordinates[0];
-    var distanceFromLeft = startCoordinates[1];
+    var distanceFromTop = parseInt(startCoordinates[0]);
+    var distanceFromLeft = parseInt(startCoordinates[1]);
 
     //console.log('start', startCoordinates);
 
@@ -337,7 +337,7 @@ class FinderPage {
     // Loop through the grid searching for the goal
     while (queue.length > 0){
       //tahe the first location off the queue
-
+      console.log(queue);
       var currentLocation = queue.shift();
 
       //Explore up
@@ -394,7 +394,7 @@ class FinderPage {
   }
 
   locationStatus(location, grid) {
-    var gridSize = grid.length;
+    var gridSize = 10;
     var dft = location.distanceFromTop;
     var dfl = location.distanceFromLeft;
 
@@ -413,9 +413,9 @@ class FinderPage {
       return 'Goal';
 
     } else if (grid[dft][dfl] !== true ) {
-      //console.log([grid.row][grid.col]);
+      console.log([grid.row][grid.col]);
       // location is either an obstacle or has been visited
-      return 'Blocked';
+      return false;
     } else {
       return 'Valid';
     }
@@ -449,7 +449,7 @@ class FinderPage {
     };
     newLocation.status = thisFinder.locationStatus(newLocation, grid);
 
-    if(newLocation.status === true) {
+    if(newLocation.status === 'Valid') {
       grid[newLocation.distanceFromTop][newLocation.distanceFromLeft] = 'Visited';
     }
 
@@ -459,11 +459,12 @@ class FinderPage {
   colorPath(path){
     const thisFinder = this;
 
+    
     const pathArray = path;
 
     thisFinder.currentElement = thisFinder.start;
 
-
+    
     pathArray.forEach(colorFunction);
 
     function colorFunction(element) {
