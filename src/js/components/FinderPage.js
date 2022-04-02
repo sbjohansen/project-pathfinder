@@ -323,15 +323,15 @@ class FinderPage {
 
     //start location
 
-    var distanceFromTop = parseInt(startCoordinates[0]);
-    var distanceFromLeft = parseInt(startCoordinates[1]);
+    const distanceFromTop = parseInt(startCoordinates[0]);
+    const distanceFromLeft = parseInt(startCoordinates[1]);
 
     //console.log('start', startCoordinates);
 
     // Each location will store it's coordinates
     // and the shortest path required to arrive there
 
-    var location = {
+    let location = {
       distanceFromTop: distanceFromTop,
       distanceFromLeft: distanceFromLeft,
       path: [],
@@ -341,13 +341,13 @@ class FinderPage {
 
     // initialize the queue with the start location already inside
 
-    var queue = [location];
+    let queue = [location];
 
     // Loop through the grid searching for the goal
     while (queue.length > 0){
       //tahe the first location off the queue
       console.log(queue);
-      var currentLocation = queue.shift();
+      let currentLocation = queue.shift();
 
       //Explore up
 
@@ -403,9 +403,9 @@ class FinderPage {
   }
 
   locationStatus(location, grid) {
-    var gridSize = 10;
-    var dft = location.distanceFromTop;
-    var dfl = location.distanceFromLeft;
+    const gridSize = 10;
+    const dft = location.distanceFromTop;
+    const dfl = location.distanceFromLeft;
 
     //console.log('dft', dft, 'dfl', dfl)
 
@@ -434,11 +434,11 @@ class FinderPage {
   exploreInDirection(currentLocation, direction, grid) {
 
     const thisFinder = this;
-    var newPath = currentLocation.path.slice();
+    let newPath = currentLocation.path.slice();
     newPath.push(direction);
 
-    var dft = currentLocation.distanceFromTop;
-    var dfl = currentLocation.distanceFromLeft;
+    let dft = currentLocation.distanceFromTop;
+    let dfl = currentLocation.distanceFromLeft;
 
     if (direction === 'North') {
       dft -= 1;
@@ -450,7 +450,7 @@ class FinderPage {
       dfl -= 1;
     }
 
-    var newLocation = {
+    let newLocation = {
       distanceFromTop: dft,
       distanceFromLeft: dfl,
       path: newPath,
