@@ -5,7 +5,7 @@ class FinderPage {
   constructor(element){
     const thisFinder = this;
 
-   thisFinder.element = element;
+    thisFinder.element = element;
 
     thisFinder.stage = 1;
 
