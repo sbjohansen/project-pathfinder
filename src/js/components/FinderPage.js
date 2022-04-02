@@ -5,6 +5,8 @@ class FinderPage {
   constructor(element){
     const thisFinder = this;
 
+   thisFinder.element = element;
+
     thisFinder.stage = 1;
 
     thisFinder.render(element);
@@ -32,6 +34,8 @@ class FinderPage {
 
   render(element){
     const thisFinder = this;
+
+    
 
     /* generate HTML based on template */
     const generatedHTML = templates.finderPage();
@@ -78,7 +82,7 @@ class FinderPage {
     const thisFinder = this;
     thisFinder.stage = newStage;
 
-    thisFinder.markField();
+    console.log(thisFinder.stage);
   }
 
   initGrid(){
@@ -113,7 +117,6 @@ class FinderPage {
 
 
       
-
     thisFinder.dom.buttonWrapper.addEventListener('click', function(event) {
       event.preventDefault();
 
@@ -122,7 +125,7 @@ class FinderPage {
       //console.log(clickedElement);
 
 
-      if(clickedElement.classList.contains(classNames.finder.buttonActive )){
+      if(clickedElement.classList.contains(classNames.finder.buttonActive ) && thisFinder.stage === 1){
 
         event.preventDefault();
         thisFinder.lastClicked.classList.replace(classNames.finder.gridItemLastClicked, classNames.finder.gridItemClicked);
@@ -135,26 +138,26 @@ class FinderPage {
 
         startButton.classList.remove(classNames.finder.buttonActive);
         startFinishButton.classList.add(classNames.finder.buttonActive);
-      } if(clickedElement.classList.contains(classNames.finder.buttonActive )){
+      } if(clickedElement.classList.contains(classNames.finder.buttonActive ) && thisFinder.stage === 2) {
         event.preventDefault();
         startFinishButton.classList.remove(classNames.finder.buttonActive);
         computeButton.classList.add(classNames.finder.buttonActive);
-        thisFinder.changeStage(3);
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageTwo).classList.remove(classNames.finder.buttonActive);
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageThree).classList.add(classNames.finder.buttonActive);
-        if(thisFinder.stage === 3){
           thisFinder.colorPath(thisFinder.findShortestPath(thisFinder.start, thisFinder.grid));
-        }
-      } if (clickedElement.classList.contains(classNames.finder.buttonActive )){
+          thisFinder.changeStage(3);
+
+        
+      } if (clickedElement.classList.contains(classNames.finder.buttonActive ) && thisFinder.stage === 3){
         event.preventDefault();
         computeButton.classList.remove(classNames.finder.buttonActive);
         startButton.classList.add(classNames.finder.buttonActive);
-        thisFinder.changeStage(1);
 
         thisFinder.cleanUp();
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageThree).classList.remove(classNames.finder.buttonActive);
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageOne).classList.add(classNames.finder.buttonActive);
-        
+        thisFinder.changeStage(1);
+
         
 
   
@@ -172,7 +175,7 @@ class FinderPage {
       if(clickedElement.classList.contains(classNames.finder.gridItem) && thisFinder.stage === 1){
 
         thisFinder.markField(clickedElement);
-      } else if (thisFinder.stage == 2) {
+      } else if (thisFinder.stage === 2) {
 
         if(clickedElement.classList.contains(classNames.finder.gridItemClicked)){
 
@@ -180,8 +183,11 @@ class FinderPage {
         }
       }
     });
-
+    
   } 
+
+
+
 
   cleanUp(){
     const thisFinder = this;
@@ -194,6 +200,8 @@ class FinderPage {
       for(let col = 0; col < 10; col++) {
         thisFinder.grid[row][col] = false;
       }
+      thisFinder.changeStage(1);
+      console.log(thisFinder.stage);
     }
 
     thisFinder.clickedGridOrderX = [];
@@ -206,7 +214,7 @@ class FinderPage {
   markField(clickedElement){
     const thisFinder = this;
 
-    if(thisFinder.stage === 1){
+    if(thisFinder.stage === 1 ){
     //console.log(thisFinder.grid);
 
       const clickedField = {
@@ -457,6 +465,7 @@ class FinderPage {
   }
 
   colorPath(path){
+    
     const thisFinder = this;
 
     
