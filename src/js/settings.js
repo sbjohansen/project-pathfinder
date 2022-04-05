@@ -37,7 +37,7 @@ export const classNames = {
     gridItemLastClicked: 'grid-item-last-clicked',
     gridItemStart: 'grid-item-start',
     gridItemFinish: 'grid-item-finish',
-
+    gridItemClickable: 'grid-item-clickable',
     buttonStart: '.finder-start',
     buttonStartFinish: '.finder-start-finish',
     buttonCompute: 'finder-compute',

@@ -75,6 +75,8 @@ class FinderPage {
 
     thisFinder.previouslyClickedElem = '';
 
+    
+
 
   }
 
@@ -113,6 +115,8 @@ class FinderPage {
     const startFinishButton = thisFinder.dom.wrapper.querySelector(select.finder.buttonStartFinish);
     const computeButton = thisFinder.dom.wrapper.querySelector(select.finder.buttonCompute);
 
+    window.addEventListener('scroll', utils.reveal);
+    utils.reveal();
 
       
     thisFinder.dom.buttonWrapper.addEventListener('click', function(event) {
