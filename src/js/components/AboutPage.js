@@ -7,6 +7,8 @@ class AboutPage {
     const thisAbout = this;
 
     thisAbout.render(element);    
+    thisAbout.initActions();
+
   }
 
 
@@ -27,6 +29,13 @@ class AboutPage {
     thisAbout.dom = {};
     thisAbout.dom.wrapper = element;
     
+  }
+
+  initActions() {
+
+    window.addEventListener('scroll', utils.reveal);
+    utils.reveal();
+
   }
 }
 
