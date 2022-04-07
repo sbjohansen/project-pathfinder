@@ -286,7 +286,7 @@ class FinderPage {
     }
   }
 
-  markClicable(clickedElement){
+  markClicable(){
 
     const thisFinder = this;
 
@@ -428,7 +428,7 @@ class FinderPage {
       }
 
     }
-}
+  }
 
   startFinish(clickedElement){
     const thisFinder = this;
