@@ -136,6 +136,11 @@ class FinderPage {
         thisFinder.changeStage(2);
         startButton.classList.remove(classNames.finder.buttonActive);
         startFinishButton.classList.add(classNames.finder.buttonActive);
+        for(let grid of thisFinder.dom.gridContainer.children){
+          grid.classList.remove(classNames.finder.gridItemClickable);
+        }
+
+        alert('Time to mark START and FINISH');
 
       } if(clickedElement.classList.contains(classNames.finder.buttonActive ) && thisFinder.stage === 2) {
         event.preventDefault();
@@ -188,7 +193,7 @@ class FinderPage {
     const thisFinder = this;
 
     for(let grid of thisFinder.dom.gridContainer.children)
-      grid.classList.remove(classNames.finder.finish, classNames.finder.gridItemStart, classNames.finder.path, classNames.finder.gridItemClicked);
+      grid.classList.remove(classNames.finder.finish, classNames.finder.gridItemStart, classNames.finder.path, classNames.finder.gridItemClicked, classNames.finder.gridItemClickable);
     thisFinder.previouslyClickedElem = '';
     thisFinder.grid = [];
     for(let row = 0; row < 10; row++) {
@@ -439,6 +444,7 @@ class FinderPage {
 
     };
 
+    
     const gridValues = Object.values(thisFinder.grid)
       .map(col => Object.values(col))
       .flat();
