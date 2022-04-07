@@ -168,7 +168,7 @@ class FinderPage {
 
       if(clickedElement.classList.contains(classNames.finder.gridItem) && thisFinder.stage === 1){
         thisFinder.markField(clickedElement);
-        //thisFinder.markClicable(clickedElement);
+        thisFinder.markClicable(clickedElement);
 
       
 
@@ -286,13 +286,13 @@ class FinderPage {
     }
   }
 
-  /* markClicable(clickedElement){
+  markClicable(clickedElement){
 
     const thisFinder = this;
 
     const grid = thisFinder.dom.gridContainer.querySelectorAll('.grid-item');
 
-
+    console.log(grid);
 
     for(let field of grid){
       
@@ -302,36 +302,133 @@ class FinderPage {
 
       };
 
-      const fieldNorth = thisFinder.dom.gridContainer.querySelector('[data-col="' + (clickedField.col) + '"]' + '[data-row="' + (clickedField.row - 1) + '"]' );
-      const fieldSouth = thisFinder.dom.gridContainer.querySelector('[data-col="' + (clickedField.col) + '"]' + '[data-row="' + (clickedField.row + 1)+ '"]' );
-      const fieldEast = thisFinder.dom.gridContainer.querySelector('[data-col="' + (clickedField.col + 1 ) + '"]' + '[data-row="' + (clickedField.row) + '"]' );
-      const fieldWest = thisFinder.dom.gridContainer.querySelector('[data-col="' + (clickedField.col - 1 ) + '"]' + '[data-row="' + (clickedField.row) + '"]' );
-      console.log(thisFinder.grid[clickedField.row][clickedField.col] === false);
-
-      const filter =  fieldNorth.classList.contains(classNames.finder.gridItemClicked) || fieldNorth.classList.contains(classNames.finder.gridItemLastClicked) || 
-                      fieldSouth.classList.contains(classNames.finder.gridItemClicked) || fieldSouth.classList.contains(classNames.finder.gridItemLastClicked) || 
-                      fieldEast.classList.contains(classNames.finder.gridItemClicked) || fieldEast.classList.contains(classNames.finder.gridItemLastClicked) || 
-                      fieldWest.classList.contains(classNames.finder.gridItemClicked) || fieldWest.classList.contains(classNames.finder.gridItemLastClicked) && !field.classList.containst(classNames.finder.gridItemClicked) || !field.classList.containst(classNames.finder.gridLastItemClicked);
-      if(fieldNorth !== null && filter){ 
-        if(thisFinder.grid[clickedField.row - 1][clickedField.col] === false && !fieldNorth.classList.contains(classNames.finder.gridItemClicked) && !fieldNorth.classList.contains(classNames.finder.gridItemLastClicked)){
-          fieldNorth.classList.add(classNames.finder.gridItemClickable);
-          
-        }} else if(fieldSouth !== null){
-        if (thisFinder.grid[clickedField.row + 1][clickedField.col] === false ){
-          field.classList.add(classNames.finder.gridItemClickable);
-        }} else if(fieldEast !== null){
-        if(thisFinder.grid[clickedField.row][clickedField.col + 1] === false ){
-          field.classList.add(classNames.finder.gridItemClickable);
-        }} else if(fieldWest !== null){
-        if(thisFinder.grid[clickedField.row][clickedField.col - 1] === false ){
-
-          field.classList.add(classNames.finder.gridItemClickable);
-        }}
+      //check for inner fields        
+      if(clickedField.col > 0 && clickedField.col < 9 && clickedField.row > 0 && clickedField.row < 9) {
+        if(thisFinder.grid[clickedField.row - 1][clickedField.col] === true || 
+          thisFinder.grid[clickedField.row + 1][clickedField.col] === true ||
+          thisFinder.grid[clickedField.row][clickedField.col + 1] === true ||
+          thisFinder.grid[clickedField.row][clickedField.col - 1] === true){
+            
+          if(!field.classList.contains(classNames.finder.gridItemClicked) && !field.classList.contains(classNames.finder.gridItemLastClicked))  
+            field.classList.add(classNames.finder.gridItemClickable);
+        }  else {
+          field.classList.remove(classNames.finder.gridItemClickable);
+        }
     
+      }
+    
+      //check for left top corner
+      if(clickedField.col === 0 && clickedField.col < 9 && clickedField.row === 0 && clickedField.row < 9) {
+        if(thisFinder.grid[clickedField.row + 1][clickedField.col] === true ||
+          thisFinder.grid[clickedField.row][clickedField.col + 1] === true){
+            
+          if(!field.classList.contains(classNames.finder.gridItemClicked) && !field.classList.contains(classNames.finder.gridItemLastClicked))  
+            field.classList.add(classNames.finder.gridItemClickable);
+
+        }  else {
+          
+          field.classList.remove(classNames.finder.gridItemClickable);
+        }
+      }
+
+      //check for right top corner
+      if(clickedField.col > 0 && clickedField.col === 9 && clickedField.row === 0 && clickedField.row < 9) {
+        if(thisFinder.grid[clickedField.row + 1][clickedField.col] === true ||
+          thisFinder.grid[clickedField.row][clickedField.col - 1] === true){
+            
+          if(!field.classList.contains(classNames.finder.gridItemClicked) && !field.classList.contains(classNames.finder.gridItemLastClicked))  
+            field.classList.add(classNames.finder.gridItemClickable);
+
+        }  else {
+          
+          field.classList.remove(classNames.finder.gridItemClickable);
+        }
+      }
+
+      //check for right bottom corner
+      if(clickedField.col > 0 && clickedField.col === 9 && clickedField.row > 0 && clickedField.row === 9) {
+        if(thisFinder.grid[clickedField.row -1][clickedField.col] === true ||
+          thisFinder.grid[clickedField.row][clickedField.col - 1] === true){
+            
+          if(!field.classList.contains(classNames.finder.gridItemClicked) && !field.classList.contains(classNames.finder.gridItemLastClicked))  
+            field.classList.add(classNames.finder.gridItemClickable);
+
+        }  else {
+          
+          field.classList.remove(classNames.finder.gridItemClickable);
+        }
+      }
+
+      //check for left bottom corner
+      if(clickedField.col === 0 && clickedField.col < 9 && clickedField.row > 0 && clickedField.row === 9) {
+        if(thisFinder.grid[clickedField.row - 1][clickedField.col] === true ||
+          thisFinder.grid[clickedField.row][clickedField.col + 1] === true){
+            
+          if(!field.classList.contains(classNames.finder.gridItemClicked) && !field.classList.contains(classNames.finder.gridItemLastClicked))  
+            field.classList.add(classNames.finder.gridItemClickable);
+
+        }  else {
+          
+          field.classList.remove(classNames.finder.gridItemClickable);
+        }
+      }
+      //check for first column
+      if(clickedField.col === 0 && clickedField.col < 9 && clickedField.row > 0 && clickedField.row < 9) {
+        if(thisFinder.grid[clickedField.row + 1][clickedField.col] === true ||
+          thisFinder.grid[clickedField.row - 1][clickedField.col] === true ||
+          thisFinder.grid[clickedField.row][clickedField.col + 1] === true){
+            
+          if(!field.classList.contains(classNames.finder.gridItemClicked) && !field.classList.contains(classNames.finder.gridItemLastClicked))  
+            field.classList.add(classNames.finder.gridItemClickable);
+        }  else {
+          
+          field.classList.remove(classNames.finder.gridItemClickable);
+        }
+      }
+
+      //check for last column
+      if(clickedField.col > 0 && clickedField.col === 9 && clickedField.row > 0 && clickedField.row < 9) {
+        if(thisFinder.grid[clickedField.row + 1][clickedField.col] === true ||
+          thisFinder.grid[clickedField.row - 1][clickedField.col] === true ||
+          thisFinder.grid[clickedField.row][clickedField.col - 1] === true){
+            
+          if(!field.classList.contains(classNames.finder.gridItemClicked) && !field.classList.contains(classNames.finder.gridItemLastClicked))  
+            field.classList.add(classNames.finder.gridItemClickable);
+        }  else {
+          
+          field.classList.remove(classNames.finder.gridItemClickable);
+        }
+      }
+      //check for first row
+      if(clickedField.col > 0 && clickedField.col < 9 && clickedField.row === 0 && clickedField.row < 9) {
+        if(thisFinder.grid[clickedField.row + 1][clickedField.col] === true ||
+          thisFinder.grid[clickedField.row][clickedField.col - 1] === true ||
+          thisFinder.grid[clickedField.row][clickedField.col + 1] === true){
+            
+          if(!field.classList.contains(classNames.finder.gridItemClicked) && !field.classList.contains(classNames.finder.gridItemLastClicked))  
+            field.classList.add(classNames.finder.gridItemClickable);
+        }  else {
+          
+          field.classList.remove(classNames.finder.gridItemClickable);
+        }
+      }
+
+      //check for last row
+      if(clickedField.col > 0 && clickedField.col < 9 && clickedField.row > 0 && clickedField.row === 9) {
+        if(thisFinder.grid[clickedField.row - 1][clickedField.col] === true ||
+          thisFinder.grid[clickedField.row][clickedField.col - 1] === true ||
+          thisFinder.grid[clickedField.row][clickedField.col + 1] === true){
+            
+          if(!field.classList.contains(classNames.finder.gridItemClicked) && !field.classList.contains(classNames.finder.gridItemLastClicked))  
+            field.classList.add(classNames.finder.gridItemClickable);
+        }  else {
+          
+          field.classList.remove(classNames.finder.gridItemClickable);
+        }
+      }
+
     }
-  
-  } */
- 
+}
 
   startFinish(clickedElement){
     const thisFinder = this;
