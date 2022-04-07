@@ -19,14 +19,13 @@
 
 .grid-item-clicked {
   background-color: orange;
+  z-index: 52;
 }
 
-.grid-item-clickable {
-  background-color: gray;
-}
 
 .grid-item-last-clicked {
   background-color: lightcoral;
+  z-index: 2;
 }
 
 .grid-item-start {
@@ -126,4 +125,10 @@
 
 .grid-item-path {
   background-color: $color-green;
+}
+
+.grid-item-clickable {
+  opacity: 0.2;
+  background-color: lightblue;
+  z-index: 2;
 }

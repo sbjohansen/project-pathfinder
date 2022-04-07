@@ -27,6 +27,8 @@ class FinderPage {
 
     thisFinder.start = [];
     thisFinder.finish = [];
+    thisFinder.clickedDivs = [];
+
 
   }
 
@@ -166,6 +168,9 @@ class FinderPage {
 
       if(clickedElement.classList.contains(classNames.finder.gridItem) && thisFinder.stage === 1){
         thisFinder.markField(clickedElement);
+        //thisFinder.markClicable(clickedElement);
+
+      
 
       } else if (thisFinder.stage === 2) {
         if(clickedElement.classList.contains(classNames.finder.gridItemClicked)){
@@ -255,11 +260,20 @@ class FinderPage {
         thisFinder.grid[clickedField.row][clickedField.col] = true;
         clickedElement.classList.add(classNames.finder.gridItemLastClicked);
 
+        thisFinder.clickedDivs.push(clickedElement);
+        //console.log(thisFinder.clickedDivs);
+
+        if(clickedElement.classList.contains(classNames.finder.gridItemClickable)){
+          clickedElement.classList.replace(classNames.finder.gridItemClickable, classNames.finder.gridItemLastClicked);
+
+        }
+        
         thisFinder.lastClicked = clickedElement;
         //add cords to array for defining last, second last etc
 
         thisFinder.clickedGridOrderX.push(clickedField.row);
         thisFinder.clickedGridOrderY.push(clickedField.col);
+        
 
         thisFinder.previouslyClickedElem = thisFinder.dom.gridContainer.querySelector('[data-col="' + thisFinder.clickedGridOrderY[thisFinder.clickedGridOrderY.length - 2] + '"]' + '[data-row="' + thisFinder.clickedGridOrderX[thisFinder.clickedGridOrderX.length - 2] + '"]' );
 
@@ -271,6 +285,53 @@ class FinderPage {
       return;
     }
   }
+
+  /* markClicable(clickedElement){
+
+    const thisFinder = this;
+
+    const grid = thisFinder.dom.gridContainer.querySelectorAll('.grid-item');
+
+
+
+    for(let field of grid){
+      
+      const clickedField = {
+        row: parseInt(field.getAttribute('data-row')),
+        col: parseInt(field.getAttribute('data-col')),
+
+      };
+
+      const fieldNorth = thisFinder.dom.gridContainer.querySelector('[data-col="' + (clickedField.col) + '"]' + '[data-row="' + (clickedField.row - 1) + '"]' );
+      const fieldSouth = thisFinder.dom.gridContainer.querySelector('[data-col="' + (clickedField.col) + '"]' + '[data-row="' + (clickedField.row + 1)+ '"]' );
+      const fieldEast = thisFinder.dom.gridContainer.querySelector('[data-col="' + (clickedField.col + 1 ) + '"]' + '[data-row="' + (clickedField.row) + '"]' );
+      const fieldWest = thisFinder.dom.gridContainer.querySelector('[data-col="' + (clickedField.col - 1 ) + '"]' + '[data-row="' + (clickedField.row) + '"]' );
+      console.log(thisFinder.grid[clickedField.row][clickedField.col] === false);
+
+      const filter =  fieldNorth.classList.contains(classNames.finder.gridItemClicked) || fieldNorth.classList.contains(classNames.finder.gridItemLastClicked) || 
+                      fieldSouth.classList.contains(classNames.finder.gridItemClicked) || fieldSouth.classList.contains(classNames.finder.gridItemLastClicked) || 
+                      fieldEast.classList.contains(classNames.finder.gridItemClicked) || fieldEast.classList.contains(classNames.finder.gridItemLastClicked) || 
+                      fieldWest.classList.contains(classNames.finder.gridItemClicked) || fieldWest.classList.contains(classNames.finder.gridItemLastClicked) && !field.classList.containst(classNames.finder.gridItemClicked) || !field.classList.containst(classNames.finder.gridLastItemClicked);
+      if(fieldNorth !== null && filter){ 
+        if(thisFinder.grid[clickedField.row - 1][clickedField.col] === false && !fieldNorth.classList.contains(classNames.finder.gridItemClicked) && !fieldNorth.classList.contains(classNames.finder.gridItemLastClicked)){
+          fieldNorth.classList.add(classNames.finder.gridItemClickable);
+          
+        }} else if(fieldSouth !== null){
+        if (thisFinder.grid[clickedField.row + 1][clickedField.col] === false ){
+          field.classList.add(classNames.finder.gridItemClickable);
+        }} else if(fieldEast !== null){
+        if(thisFinder.grid[clickedField.row][clickedField.col + 1] === false ){
+          field.classList.add(classNames.finder.gridItemClickable);
+        }} else if(fieldWest !== null){
+        if(thisFinder.grid[clickedField.row][clickedField.col - 1] === false ){
+
+          field.classList.add(classNames.finder.gridItemClickable);
+        }}
+    
+    }
+  
+  } */
+ 
 
   startFinish(clickedElement){
     const thisFinder = this;
