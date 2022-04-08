@@ -136,6 +136,7 @@
 @media (max-width: 967px ) {
 
   .grid-container {
+    margin: 0 auto;
     justify-content: center;
     display: grid;
     grid-template-rows: repeat(var(--grid-rows), 45px);
