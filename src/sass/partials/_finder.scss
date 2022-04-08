@@ -140,8 +140,8 @@
     margin: 0 auto;
     justify-content: center;
     display: grid;
-    grid-template-rows: repeat(var(--grid-rows), 45px);
-    grid-template-columns: repeat(var(--grid-cols), 45px);
+    grid-template-rows: repeat(var(--grid-rows), 9vw);
+    grid-template-columns: repeat(var(--grid-cols), 9vw);
   }
   .grid-item {
     padding: 1px;
