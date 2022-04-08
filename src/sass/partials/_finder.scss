@@ -142,4 +142,13 @@
     grid-template-columns: repeat(var(--grid-cols), 45px);
     
   }
+  .grid-item {
+    padding: 1px;
+    border: 2px solid #ddd;
+    text-align: center;
+    margin-right: -1px;
+    margin-bottom: -1px;
+    cursor: pointer;
+  
+  }
 }
