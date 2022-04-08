@@ -3,7 +3,7 @@
 }
 
 body {
-  margin: 0 auto;
+  margin: 0;
   font-size: 14px;
   line-height: 1.7;
   color: $color-white;
@@ -31,5 +31,17 @@ footer {
 
 h1, h2, h3 {
   font-family: $font-sans-serif;
+
+}
+
+@media (max-width: 967px ) {
+  
+  .container {
+    max-width: 967px;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
 
 }
