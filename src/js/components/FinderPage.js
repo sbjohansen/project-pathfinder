@@ -165,10 +165,6 @@ class FinderPage {
       } if(clickedElement.classList.contains(classNames.finder.buttonActive ) && thisFinder.stage === 'drawStartFinish') {
         event.preventDefault();
 
-        const checkStartFinish = thisFinder.dom.gridContainer.querySelector(classNames.finder.gridItemFinish);
-
-        console.log(checkStartFinish);
-
         const gridValues = Object.values(thisFinder.grid)
           .map(col => Object.values(col))
           .flat();
@@ -188,9 +184,6 @@ class FinderPage {
           thisFinder.dom.wrapper.querySelector(classNames.finder.stageTwo).classList.remove(classNames.finder.buttonActive);
           thisFinder.dom.wrapper.querySelector(classNames.finder.stageThree).classList.add(classNames.finder.buttonActive);
           thisFinder.colorPath(thisFinder.findShortestPath(thisFinder.start, thisFinder.grid));
-
-          const length = thisFinder.dom.gridContainer.querySelectorAll(classNames.finder.path);
-          console.log('path', thisFinder.path.length);
 
           // eslint-disable-next-line
         Swal.fire({
@@ -362,7 +355,7 @@ class FinderPage {
 
     const grid = thisFinder.dom.gridContainer.querySelectorAll('.grid-item');
 
-    console.log(grid);
+    //console.log(grid);
 
     for(let field of grid){
       
