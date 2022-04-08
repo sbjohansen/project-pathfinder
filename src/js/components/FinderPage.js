@@ -7,7 +7,7 @@ class FinderPage {
 
     thisFinder.element = element;
 
-    thisFinder.stage = 1;
+    thisFinder.stage = 'drawing';
 
     thisFinder.render(element);
     thisFinder.getElements();
@@ -29,6 +29,11 @@ class FinderPage {
     thisFinder.finish = [];
     thisFinder.clickedDivs = [];
 
+    //STAGES
+    // 1. drawing
+    // 2. drawStartFinish
+    // 3. compute
+
 
   }
 
@@ -46,7 +51,7 @@ class FinderPage {
     /* find menu container */
     const finderContainer = document.querySelector(select.containerOf.finderPage);
     /* add element to menu */
-    if(thisFinder.stage === 1){
+    if(thisFinder.stage === 'drawing'){
 
       finderContainer.appendChild(thisFinder.element);
 
@@ -126,33 +131,57 @@ class FinderPage {
 
       const clickedElement = event.target;
       
-      if(clickedElement.classList.contains(classNames.finder.buttonActive ) && thisFinder.stage === 1){
+      if(clickedElement.classList.contains(classNames.finder.buttonActive ) && thisFinder.stage === 'drawing'){
         event.preventDefault();
 
-        thisFinder.lastClicked.classList.replace(classNames.finder.gridItemLastClicked, classNames.finder.gridItemClicked);
-        thisFinder.previouslyClickedElem.classList.replace(classNames.finder.gridItemLastClicked, classNames.finder.gridItemClicked);
-        thisFinder.dom.wrapper.querySelector(classNames.finder.stageOne).classList.remove(classNames.finder.buttonActive);
-        thisFinder.dom.wrapper.querySelector(classNames.finder.stageTwo).classList.add(classNames.finder.buttonActive);
-        thisFinder.changeStage(2);
-        startButton.classList.remove(classNames.finder.buttonActive);
-        startFinishButton.classList.add(classNames.finder.buttonActive);
-        for(let grid of thisFinder.dom.gridContainer.children){
-          grid.classList.remove(classNames.finder.gridItemClickable);
+        const gridValues = Object.values(thisFinder.grid)
+          .map(col => Object.values(col))
+          .flat();
+
+        if(gridValues.filter(x => x === true).length < 3){
+          alert('Path needs to be at least 3 fields long.');
+        } else {
+
+          thisFinder.lastClicked.classList.replace(classNames.finder.gridItemLastClicked, classNames.finder.gridItemClicked);
+          thisFinder.previouslyClickedElem.classList.replace(classNames.finder.gridItemLastClicked, classNames.finder.gridItemClicked);
+          thisFinder.dom.wrapper.querySelector(classNames.finder.stageOne).classList.remove(classNames.finder.buttonActive);
+          thisFinder.dom.wrapper.querySelector(classNames.finder.stageTwo).classList.add(classNames.finder.buttonActive);
+          thisFinder.changeStage('drawStartFinish');
+          startButton.classList.remove(classNames.finder.buttonActive);
+          startFinishButton.classList.add(classNames.finder.buttonActive);
+          for(let grid of thisFinder.dom.gridContainer.children){
+            grid.classList.remove(classNames.finder.gridItemClickable);
+          }
+        
+          alert('Time to mark START and FINISH');
         }
-
-        alert('Time to mark START and FINISH');
-
-      } if(clickedElement.classList.contains(classNames.finder.buttonActive ) && thisFinder.stage === 2) {
+      } if(clickedElement.classList.contains(classNames.finder.buttonActive ) && thisFinder.stage === 'drawStartFinish') {
         event.preventDefault();
 
-        startFinishButton.classList.remove(classNames.finder.buttonActive);
-        computeButton.classList.add(classNames.finder.buttonActive);
-        thisFinder.dom.wrapper.querySelector(classNames.finder.stageTwo).classList.remove(classNames.finder.buttonActive);
-        thisFinder.dom.wrapper.querySelector(classNames.finder.stageThree).classList.add(classNames.finder.buttonActive);
-        thisFinder.colorPath(thisFinder.findShortestPath(thisFinder.start, thisFinder.grid));
-        thisFinder.changeStage(3);
+        const checkStartFinish = thisFinder.dom.gridContainer.querySelector(classNames.finder.gridItemFinish);
 
-      } if (clickedElement.classList.contains(classNames.finder.buttonActive ) && thisFinder.stage === 3){
+        console.log(checkStartFinish);
+
+        const gridValues = Object.values(thisFinder.grid)
+          .map(col => Object.values(col))
+          .flat();
+
+        if(!gridValues.includes('Goal')){
+          alert('Please choose START and FINISH first');
+
+        } else {
+      
+          startFinishButton.classList.remove(classNames.finder.buttonActive);
+          computeButton.classList.add(classNames.finder.buttonActive);
+          thisFinder.dom.wrapper.querySelector(classNames.finder.stageTwo).classList.remove(classNames.finder.buttonActive);
+          thisFinder.dom.wrapper.querySelector(classNames.finder.stageThree).classList.add(classNames.finder.buttonActive);
+          thisFinder.colorPath(thisFinder.findShortestPath(thisFinder.start, thisFinder.grid));
+          thisFinder.changeStage('compute');
+        }
+      } 
+      
+      
+      if (clickedElement.classList.contains(classNames.finder.buttonActive ) && thisFinder.stage === 'compute'){
         event.preventDefault();
 
         computeButton.classList.remove(classNames.finder.buttonActive);
@@ -160,7 +189,7 @@ class FinderPage {
         thisFinder.cleanUp();
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageThree).classList.remove(classNames.finder.buttonActive);
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageOne).classList.add(classNames.finder.buttonActive);
-        thisFinder.changeStage(1);
+        thisFinder.changeStage('drawing');
       }
 
     });
@@ -171,13 +200,13 @@ class FinderPage {
 
       const clickedElement = event.target;
 
-      if(clickedElement.classList.contains(classNames.finder.gridItem) && thisFinder.stage === 1){
+      if(clickedElement.classList.contains(classNames.finder.gridItem) && thisFinder.stage === 'drawing'){
         thisFinder.markField(clickedElement);
         thisFinder.markClicable(clickedElement);
 
       
 
-      } else if (thisFinder.stage === 2) {
+      } else if (thisFinder.stage === 'drawStartFinish') {
         if(clickedElement.classList.contains(classNames.finder.gridItemClicked)){
           thisFinder.startFinish(clickedElement);
         }
@@ -201,7 +230,7 @@ class FinderPage {
       for(let col = 0; col < 10; col++) {
         thisFinder.grid[row][col] = false;
       }
-      thisFinder.changeStage(1);
+      thisFinder.changeStage('drawing');
     }
 
     thisFinder.clickedGridOrderX = [];
@@ -213,7 +242,7 @@ class FinderPage {
   markField(clickedElement){
     const thisFinder = this;
 
-    if(thisFinder.stage === 1 ){
+    if(thisFinder.stage === 'drawing' ){
 
       const clickedField = {
         row: parseInt(clickedElement.getAttribute('data-row')),
