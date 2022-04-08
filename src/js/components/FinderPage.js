@@ -1,6 +1,7 @@
 import {select, templates, settings, classNames} from '../settings.js';
 import utils from '../utils.js';
 
+
 class FinderPage {
   constructor(element){
     const thisFinder = this;
@@ -139,7 +140,15 @@ class FinderPage {
           .flat();
 
         if(gridValues.filter(x => x === true).length < 3){
-          alert('Path needs to be at least 3 fields long.');
+          // eslint-disable-next-line
+          Swal.fire({
+            title: 'Error!',
+            text: 'Path needs to be at least 3 fields long.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+
+
         } else {
 
           thisFinder.lastClicked.classList.replace(classNames.finder.gridItemLastClicked, classNames.finder.gridItemClicked);
@@ -152,8 +161,6 @@ class FinderPage {
           for(let grid of thisFinder.dom.gridContainer.children){
             grid.classList.remove(classNames.finder.gridItemClickable);
           }
-        
-          alert('Time to mark START and FINISH');
         }
       } if(clickedElement.classList.contains(classNames.finder.buttonActive ) && thisFinder.stage === 'drawStartFinish') {
         event.preventDefault();
@@ -167,8 +174,13 @@ class FinderPage {
           .flat();
 
         if(!gridValues.includes('Goal')){
-          alert('Please choose START and FINISH first');
-
+          // eslint-disable-next-line
+          Swal.fire({
+            title: 'Error!',
+            text: 'Please choose START and FINISH first.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
         } else {
       
           startFinishButton.classList.remove(classNames.finder.buttonActive);
@@ -176,7 +188,23 @@ class FinderPage {
           thisFinder.dom.wrapper.querySelector(classNames.finder.stageTwo).classList.remove(classNames.finder.buttonActive);
           thisFinder.dom.wrapper.querySelector(classNames.finder.stageThree).classList.add(classNames.finder.buttonActive);
           thisFinder.colorPath(thisFinder.findShortestPath(thisFinder.start, thisFinder.grid));
+
+          const length = thisFinder.dom.gridContainer.querySelectorAll(classNames.finder.path);
+          console.log('path', thisFinder.path.length);
+
+          // eslint-disable-next-line
+        Swal.fire({
+            title: '<b>SUMMARY<b>',
+            text:  'FASTEST ROUTE: ' + thisFinder.path.length + ' fields.',
+            footer: 'Thank You for using Pathfinder.',
+            icon: 'info',
+            showCloseButton: true,
+            showConfirmButton: false,
+
+
+          });
           thisFinder.changeStage('compute');
+
         }
       } 
       
@@ -187,6 +215,7 @@ class FinderPage {
         computeButton.classList.remove(classNames.finder.buttonActive);
         startButton.classList.add(classNames.finder.buttonActive);
         thisFinder.cleanUp();
+        
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageThree).classList.remove(classNames.finder.buttonActive);
         thisFinder.dom.wrapper.querySelector(classNames.finder.stageOne).classList.add(classNames.finder.buttonActive);
         thisFinder.changeStage('drawing');
@@ -286,7 +315,14 @@ class FinderPage {
           if(clickedField.row < 9) edgeFields.push(thisFinder.grid[clickedField.row+1][clickedField.col]); //get field on the bottom value
 
           if(!edgeFields.includes(true)){
-            alert('A new field should touch at least one that is already selected!');
+            // eslint-disable-next-line
+            Swal.fire({
+              title: 'Error!',
+              text: 'A new field should touch at least one that is already selected!',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+            
             return;
           }
         }
@@ -628,6 +664,7 @@ class FinderPage {
     
     const thisFinder = this;
     const pathArray = path;
+    thisFinder.path = pathArray;
 
     thisFinder.currentElement = thisFinder.start;
 
