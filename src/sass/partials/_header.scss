@@ -12,7 +12,8 @@ header {
   margin-left: 1em;
   margin-right: 1em;
   font-weight: 600;
-  
+  text-shadow: 0px 0px 128px black, 0px 0px 18px black;
+
 
   &.left {
     float: left;
@@ -26,7 +27,7 @@ header {
   font-weight: 800;
   letter-spacing: 2vw;
   margin-top: 4.9vw;
-  text-shadow: 0px 0px 78px black, 0px 0px 58px black;
+  text-shadow: 0px 0px 58px black, 0px 0px 58px black;
 }
 
 .splash-main-subtitle {
