@@ -52,3 +52,18 @@
     opacity: 1;
   }
 }
+
+@media (max-width: 967px ) {
+
+  .reveal {
+    position: relative;
+    opacity: 1;
+  }
+  .active.fade-left {
+    animation: none;
+  }
+  
+  .active.fade-right {
+    animation: none;
+  }
+}
