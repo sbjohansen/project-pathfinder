@@ -1,5 +1,4 @@
 # project-pathfinder
-WIP
 
 Simple pathfinding application.<br>
 <br>
