@@ -6,7 +6,7 @@ Simple pathfinding application.<br>
 # demo
 
 https://sbj-pathfinder.herokuapp.com/
-(might take up to 30s to login)
+(might take up to 30s to load)
 
 
 Technologies:<br>
