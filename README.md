@@ -3,6 +3,12 @@
 Simple pathfinding application.<br>
 <br>
 
+# demo
+
+https://sbj-pathfinder.herokuapp.com/
+(might take up to 30s to login)
+
+
 Technologies:<br>
 <br>
 - java script <br>
